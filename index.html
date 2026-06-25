@@ -264,7 +264,7 @@
         <div class="panel yellow">
           <h3 class="yellow">Свободная ниша</h3>
           <p style="margin-top:18px">В игре уже хорошо закрыты прямой урон, урон по области, замедление, заморозка и дальняя стрельба.</p>
-          <p class="muted" style="margin-top:18px">Слабее представлены временные окна уязвимости, фокус по элитной цели и поддержка уже построенной обороны без требования ставить башни рядом.</p>
+          <p class="muted" style="margin-top:18px">Слабее представлены временные наложения дебафов, наложение DoT урона, фокус по элитной цели и поддержка уже построенной обороны без требования ставить башни рядом.</p>
           <div class="pdf-row">
             <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=2" target="_blank" rel="noopener">PDF: роли башен</a>
           </div>
@@ -278,7 +278,7 @@
         <div>
           <div class="kicker">Задание 1 · новая башня</div>
           <h2 style="margin-top:8px">3. Маяк Уязвимости</h2>
-          <p style="margin-top:18px">Башня поддержки против боссов и элитных врагов. Она почти не решает волну собственным уроном, а выделяет самую опасную цель и открывает короткое окно, в которое НЛО и башни лучше реализуют уже имеющийся урон.</p>
+          <p style="margin-top:18px">Башня поддержки против боссов и элитных врагов. Она почти не отбивает врагов собственным уроном, но помогает обороне сфокусироваться на главной угрозе: выделяет самую опасную цель и накладывает на нее дебаф, открывая короткое окно уязвимости, в которое НЛО и башни эффективнее реализуют уже имеющийся урон.</p>
           <div class="mini-table" style="margin-top:22px">
             <div class="mini-row head"><span>Параметр</span><span>Решение</span></div>
             <div class="mini-row"><span>Роль</span><span>анти-босс / анти-элита</span></div>
@@ -373,7 +373,7 @@
         <div>
           <div class="kicker">Задание 2</div>
           <h2 style="margin-top:8px">7. Google Sheet для экипировки НЛО</h2>
-          <p class="muted" style="margin-top:18px">Система экипировки расширяет роль НЛО: сбор ресурсов, участие в бою и поддержка строительства. Сила атаки башен намеренно не используется, чтобы предметы не превращались в общий усилитель всей обороны.</p>
+          <p class="muted" style="margin-top:18px">Система экипировки расширяет роль НЛО. Решено было использовать следующие параметры: объем хранимых ресурсов, нанесение урона самой тарелкой и скорость передвижения.</p>
           <div class="pdf-row">
             <a class="pdf-link primary" href="https://docs.google.com/spreadsheets/d/1Qlvhi1V1IXiZnE3Ncs3TvXc9QwteCu1dhysO9UuGEWg/edit?usp=sharing" target="_blank" rel="noopener">Открыть Google Sheet</a>
             <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=7" target="_blank" rel="noopener">PDF: слоты и статы</a>
@@ -419,11 +419,11 @@
       <div style="width:min(1160px,100%); margin:auto">
         <div class="kicker">Задание 3</div>
         <h2 style="margin-top:8px">9. Weekend-турнир как башня комнат</h2>
-        <p class="muted" style="margin-top:12px; max-width:1050px">48 часов: игроки продолжают играть привычные уровни, получают очки за уничтожение зомби и двигаются вверх по виртуальным комнатам. Стартовая комната выбирается по Мощи, а дальнейшее повышение зависит от результата.</p>
+        <p class="muted" style="margin-top:12px; max-width:1050px">Длительность события - 48 часов. Участники проходят TD-уровни с нарастающей сложностью, получают очки за уничтожение зомби и поднимаются выше по виртуальным комнатам. Стартовая комната определяется по Мощи игрока, а дальнейшее продвижение зависит от результата каждого уровня.</p>
         <div class="tower-stack-v2">
-          <div class="tier-v2 yellow"><h3 class="yellow">Шпиль</h3><div><p class="small">Высокая Мощь / лучшие награды события.</p><p class="small muted">Сюда поднимаются сильные и активные игроки.</p></div><div class="rooms-mini yellow"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
-          <div class="tier-v2"><h3 class="cyan">Тело башни</h3><div><p class="small">Игроки с хорошим результатом и достаточной Мощью.</p><p class="small muted">Конкуренция плотнее, призы лучше.</p></div><div class="rooms-mini cyan"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
-          <div class="tier-v2 green"><h3 class="green">Основание</h3><div><p class="small">Стартовые комнаты по диапазонам Мощи.</p><p class="small muted">Честный вход и базовые награды.</p></div><div class="rooms-mini green"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
+          <div class="tier-v2 yellow"><h3 class="yellow">Шпиль башни</h3><div><p class="small">Высокая Мощь / лучшие награды события.</p><p class="small muted">Сюда распределяются сильные и активные игроки.</p></div><div class="rooms-mini yellow"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
+          <div class="tier-v2"><h3 class="cyan">Корпус башни</h3><div><p class="small">Игроки с хорошим результатом и достаточной Мощью.</p><p class="small muted">Конкуренция плотнее, призы лучше.</p></div><div class="rooms-mini cyan"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
+          <div class="tier-v2 green"><h3 class="green">Основание башни</h3><div><p class="small">Стартовые комнаты по диапазонам Мощи.</p><p class="small muted">Новички / частично мид-игроки. Базовые награды.</p></div><div class="rooms-mini green"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
         </div>
         <div class="pdf-row">
           <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=9" target="_blank" rel="noopener">PDF: принцип турнира</a>
@@ -459,9 +459,9 @@
         <div class="kicker">Задание 3 · метрики</div>
         <h2 style="margin-top:8px">11. Что должно вырасти и почему</h2>
         <div class="metric-list">
-          <div class="panel metric-card green"><h3 class="green">DAU weekend</h3><ul class="small muted"><li>48-часовой турнир дает повод зайти именно в субботу и воскресенье.</li><li>Риск потерять позицию мотивирует возвращаться и добирать очки.</li><li>Комната и шанс повышения становятся понятным entry point события.</li></ul></div>
-          <div class="panel metric-card"><h3 class="cyan">Retention</h3><ul class="small muted"><li>Незавершенная цель: подняться выше или удержать комнату до конца турнира.</li><li>Повышение создает долгосрочную цель на следующие weekend-события.</li><li>Честный старт по Мощи защищает удержание от ощущения unfair matchmaking.</li></ul></div>
-          <div class="panel metric-card yellow"><h3 class="yellow">ARPU / ARPPU</h3><ul class="small muted"><li>Больше сессий повышает вероятность покупки энергии, пропусков, бустеров и событийных офферов.</li><li>Чем выше комната, тем понятнее ценность усилений.</li><li>Монетизация должна помогать догнать цель, но не продавать победу напрямую.</li></ul></div>
+          <div class="panel metric-card green"><h3 class="green">DAU weekend</h3><ul class="small muted"><li>48-часовой турнир дает игроку понятный повод вернуться в игру именно в субботу и воскресенье.</li><li>Риск потерять позицию мотивирует возвращаться и добирать очки.</li><li>Комната, место в рейтинге и шанс повышения становятся ясной точкой входа в событие без отдельного сложного режима.</li></ul></div>
+          <div class="panel metric-card"><h3 class="cyan">Retention</h3><ul class="small muted"><li>Создание паттерна незавершенности: игрок хочет подняться выше или удержать комнату до конца турнира.</li><li>Повышение по комнатам создает долгосрочную мотивацию развивать Мощь перед следующими weekend-событиями.</li><li>Честный стартовый подбор по Мощи снижает риск ощущения нечестного матчмейкинга и помогает сохранить интерес к участию.</li></ul></div>
+          <div class="panel metric-card yellow"><h3 class="yellow">ARPU / ARPPU</h3><ul class="small muted"><li>Больше сессий повышает вероятность покупки энергии, пропусков, бустеров и событийных офферов.</li><li>Чем выше комната, тем понятнее ценность усилений: они помогают догнать цель, удержать позицию или перейти на следующий уровень турнира.</li><li>Выходные подталкивают к ситуативным покупкам: игрок чаще находится в игре и легче принимает решение о трате денег.</li></ul></div>
         </div>
         <div class="panel tight" style="margin-top:20px"><p><strong class="yellow">Контрольные метрики:</strong> среднее число боев на игрока, доля игроков с повышением хотя бы на 1 комнату, разрыв top-1 / top-10 / median, конверсия в первый платеж в дни события.</p></div>
         <div class="pdf-row"><a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=13" target="_blank" rel="noopener">Подробнее в PDF: метрики турнира</a></div>
@@ -757,7 +757,7 @@
     }
 
     function roomTitle(tier, idx) {
-      const names = { 1: "Основание", 2: "Тело", 3: "Шпиль" };
+      const names = { 1: "Основание", 2: "Корпус", 3: "Шпиль" };
       return `${names[tier]}-${String(idx + 1).padStart(2, "0")}`;
     }
 
@@ -781,7 +781,7 @@
         const winners = room.players.slice().sort((a,b) => b.score - a.score).slice(0, 3);
         winners.forEach(p => promoted.push({ ...p, promotedFrom: room.title, tier: Math.min(3, room.tier + 1) }));
       });
-      const rooms = [1,2,3].map(tier => ({ title: tier === 1 ? "Остались в основании" : tier === 2 ? "Повышены в тело" : "Повышены в шпиль", tier, players: promoted.filter(p => p.tier === tier) }));
+      const rooms = [1,2,3].map(tier => ({ title: tier === 1 ? "Остались в основании" : tier === 2 ? "Повышены в корпус" : "Повышены в шпиль", tier, players: promoted.filter(p => p.tier === tier) }));
       renderRooms(rooms, "Показаны победители комнат, которые получают право подняться выше.");
       setActiveMenu("promotePlayers");
     }
