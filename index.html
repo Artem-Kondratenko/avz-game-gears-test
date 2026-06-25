@@ -88,6 +88,10 @@
     .pdf-link:hover { background: rgba(36,217,255,.22); }
     .pdf-link.primary { background: linear-gradient(90deg, rgba(87,227,79,.34), rgba(36,217,255,.24)); border-color: rgba(87,227,79,.68); }
 
+    .source-status { display: inline-flex; align-items: center; min-height: 32px; padding: 7px 12px; border-radius: 999px; background: rgba(6,18,38,.58); border: 1px solid rgba(36,217,255,.38); color: var(--muted); font-size: 12px; font-weight: 850; }
+    .source-status.sheet { border-color: rgba(87,227,79,.62); color: var(--green); }
+    .source-status.fallback { border-color: rgba(255,213,74,.62); color: var(--yellow); }
+
     .quick-nav { position: fixed; z-index: 30; left: 50%; top: 14px; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; padding: 8px; border-radius: 999px; background: rgba(4,12,25,.78); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(14px); box-shadow: 0 10px 40px rgba(0,0,0,.28); max-width: calc(100vw - 24px); }
     .quick-nav button, .quick-nav a { border: 1px solid rgba(36,217,255,.32); border-radius: 999px; padding: 8px 12px; background: rgba(36,217,255,.1); color: var(--text); cursor: pointer; font-size: 12px; font-weight: 850; white-space: nowrap; text-decoration: none; }
     .quick-nav button:hover, .quick-nav a:hover { background: rgba(36,217,255,.22); }
@@ -379,7 +383,7 @@
         <div class="sheet-preview">
           <div class="sheet-row head"><span>Лист</span><span>Что внутри</span><span>Зачем</span></div>
           <div class="sheet-row"><span>Настройка</span><span>слоты, редкости, статы</span><span>справочник</span></div>
-          <div class="sheet-row"><span>Балансовая таблица</span><span>минимальный набор предметов</span><span>демо системы</span></div>
+          <div class="sheet-row"><span>Балансовая таблица</span><span>баланс предметов</span><span>источник web-конфига</span></div>
           <div class="sheet-row"><span>Визуализация</span><span>dropdown + итоговые статы</span><span>сборка сета</span></div>
           <div class="sheet-row"><span>Apps Script</span><span>создание демо и UI</span><span>быстрый запуск</span></div>
         </div>
@@ -397,6 +401,7 @@
           <label>Руль<select id="steering"></select></label>
           <label>Грузовой модуль<select id="cargo"></select></label>
           <p class="small muted">Формула: итог = (база + плоские бонусы) × (1 + процентные бонусы)</p>
+          <div id="equipmentSource" class="source-status fallback" style="margin-top:14px">Источник: fallback · проверяем Google Sheet</div>
         </div>
         <div class="panel">
           <h3>Итоговый прирост характеристик</h3>
@@ -503,7 +508,12 @@
       touchStart = null;
     }, { passive: true });
 
-    const equipment = [
+    const CONFIG = {
+      sheetId: "1Qlvhi1V1IXiZnE3Ncs3TvXc9QwteCu1dhysO9UuGEWg",
+      balanceGid: "1506471769"
+    };
+
+    const FALLBACK_EQUIPMENT = [
       { id: "engine_common", slot: "engine", name: "Пульсарный двигатель", rarity: "Обычная", stats: { move_speed_pct: .04, ufo_damage_flat: 5 } },
       { id: "engine_rare", slot: "engine", name: "Пульсарный двигатель Mk II", rarity: "Редкая", stats: { move_speed_pct: .10, ufo_damage_pct: .05 } },
       { id: "engine_epic", slot: "engine", name: "Пульсарный двигатель Омега", rarity: "Эпичная", stats: { move_speed_pct: .15, ufo_damage_pct: .09, cargo_capacity_pct: .04 } },
@@ -515,21 +525,181 @@
       { id: "cargo_epic", slot: "cargo", name: "Компрессионный трюм Омега", rarity: "Эпичная", stats: { cargo_capacity_pct: .35, ufo_damage_pct: .05, move_speed_pct: -.02 } }
     ];
 
+    let equipment = FALLBACK_EQUIPMENT.map(item => ({ ...item, stats: { ...item.stats } }));
+
     const baseStats = { ufo_damage: 100, move_speed: 100, cargo_capacity: 10 };
     const labels = { ufo_damage: "Урон НЛО", move_speed: "Скорость НЛО", cargo_capacity: "Вместимость ресурсов" };
+    const slotDefaults = { engine: "engine_rare", steering: "steering_rare", cargo: "cargo_rare" };
+    const allowedStats = new Set(Object.keys(baseStats));
+    const allowedSlots = new Set(["engine", "steering", "cargo"]);
 
-    function fillSelect(slot) {
+    function setEquipmentSource(mode, message) {
+      const source = document.getElementById("equipmentSource");
+      if (!source) return;
+      source.classList.toggle("sheet", mode === "sheet");
+      source.classList.toggle("fallback", mode !== "sheet");
+      source.textContent = message;
+    }
+
+    function parseConfigNumber(rawValue, valueType = "flat") {
+      if (rawValue === null || rawValue === undefined || rawValue === "") return 0;
+      if (typeof rawValue === "number") return rawValue;
+      let text = String(rawValue).trim().replace(/\s/g, "").replace(/\u00A0/g, "");
+      const hasPercent = text.includes("%");
+      text = text.replace("%", "").replace(",", ".");
+      const parsed = Number.parseFloat(text);
+      if (!Number.isFinite(parsed)) return 0;
+      if (valueType === "percent") return (hasPercent || Math.abs(parsed) > 1) ? parsed / 100 : parsed;
+      return hasPercent ? parsed / 100 : parsed;
+    }
+
+    function isEnabled(value) {
+      if (value === undefined || value === null || value === "") return true;
+      if (typeof value === "boolean") return value;
+      return !["false", "0", "no", "off", "disabled"].includes(String(value).trim().toLowerCase());
+    }
+
+    function slotRank(slot) {
+      return { engine: 1, steering: 2, cargo: 3 }[slot] || 99;
+    }
+
+    function rarityRank(rarityKey, rarityName) {
+      const key = String(rarityKey || rarityName || "").toLowerCase();
+      if (key.includes("common") || key.includes("обыч")) return 1;
+      if (key.includes("uncommon") || key.includes("необыч")) return 2;
+      if (key.includes("rare") || key.includes("редк")) return 3;
+      if (key.includes("epic") || key.includes("эпич")) return 4;
+      return 99;
+    }
+
+    function normalizeHeader(value) {
+      return String(value || "").trim().toLowerCase();
+    }
+
+    function readColumn(row, headerMap, names) {
+      for (const name of names) {
+        const index = headerMap[normalizeHeader(name)];
+        if (index !== undefined) return row[index];
+      }
+      return "";
+    }
+
+    function tableFromGviz(response) {
+      if (!response || response.status === "error" || !response.table) throw new Error("Google Sheet response error");
+      let headers = response.table.cols.map(col => col.label || col.id || "");
+      let rows = (response.table.rows || []).map(row => (row.c || []).map(cell => cell ? (cell.v ?? cell.f ?? "") : ""));
+      const normalizedHeaders = headers.map(normalizeHeader);
+      const hasRealHeaders = normalizedHeaders.includes("item_id") || normalizedHeaders.includes("id") || normalizedHeaders.includes("slot_key") || normalizedHeaders.includes("slot_id");
+      if (!hasRealHeaders && rows.length) {
+        const firstRow = rows[0].map(normalizeHeader);
+        if (firstRow.includes("item_id") || firstRow.includes("id")) {
+          headers = rows[0].map(value => String(value || ""));
+          rows = rows.slice(1);
+        }
+      }
+      return { headers, rows };
+    }
+
+    function normalizeSheetEquipment(table) {
+      const headerMap = {};
+      table.headers.forEach((header, index) => { headerMap[normalizeHeader(header)] = index; });
+      const hasWebConfigShape = headerMap.id !== undefined && headerMap.slot_key !== undefined && headerMap.item_name !== undefined;
+      const hasLegacyShape = headerMap.item_id !== undefined && headerMap.slot_id !== undefined;
+      if (!hasWebConfigShape && !hasLegacyShape) throw new Error("Unsupported sheet config shape");
+
+      const items = table.rows.map(row => {
+        const id = readColumn(row, headerMap, hasWebConfigShape ? ["id"] : ["item_id"]);
+        const slot = readColumn(row, headerMap, hasWebConfigShape ? ["slot_key"] : ["slot_id"]);
+        const name = readColumn(row, headerMap, hasWebConfigShape ? ["item_name"] : ["Название", "name"]);
+        if (!id || !slot || !name || !allowedSlots.has(String(slot))) return null;
+        if (hasWebConfigShape && !isEnabled(readColumn(row, headerMap, ["enabled"]))) return null;
+
+        const rarityKey = readColumn(row, headerMap, hasWebConfigShape ? ["rarity_key"] : ["rarity_id"]);
+        const rarity = readColumn(row, headerMap, hasWebConfigShape ? ["rarity_name"] : ["Редкость", "rarity"]);
+        const sortOrder = parseConfigNumber(readColumn(row, headerMap, ["sort_order"]));
+        const stats = {};
+
+        if (hasWebConfigShape) {
+          Object.keys(baseStats).forEach(stat => {
+            const flat = parseConfigNumber(readColumn(row, headerMap, [`${stat}_flat`]), "flat");
+            const pct = parseConfigNumber(readColumn(row, headerMap, [`${stat}_pct`]), "percent");
+            if (flat) stats[`${stat}_flat`] = flat;
+            if (pct) stats[`${stat}_pct`] = pct;
+          });
+        } else {
+          for (let i = 1; i <= 4; i += 1) {
+            const stat = String(readColumn(row, headerMap, [`Стат ${i}`]) || "").trim();
+            const type = String(readColumn(row, headerMap, [`Тип ${i}`]) || "").trim().toLowerCase();
+            if (!allowedStats.has(stat)) continue;
+            const keyType = type === "percent" ? "pct" : "flat";
+            const value = parseConfigNumber(readColumn(row, headerMap, [`Значение ${i}`]), type === "percent" ? "percent" : "flat");
+            if (value) stats[`${stat}_${keyType}`] = value;
+          }
+        }
+
+        return { id: String(id), slot: String(slot), name: String(name), rarity: String(rarity || rarityKey || ""), rarityKey: String(rarityKey || rarity || ""), sortOrder, stats };
+      }).filter(Boolean);
+
+      const withStats = items.filter(item => Object.keys(item.stats).length > 0);
+      const hasAllSlots = ["engine", "steering", "cargo"].every(slot => withStats.some(item => item.slot === slot));
+      if (!hasAllSlots) throw new Error("Sheet config has no items for all slots");
+
+      return withStats.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0) || slotRank(a.slot) - slotRank(b.slot) || rarityRank(a.rarityKey, a.rarity) - rarityRank(b.rarityKey, b.rarity));
+    }
+
+    function loadSheetEquipment() {
+      return new Promise((resolve, reject) => {
+        const callbackName = `__avzSheetConfig_${Date.now()}_${Math.round(Math.random() * 100000)}`;
+        const script = document.createElement("script");
+        const timer = window.setTimeout(() => {
+          cleanup();
+          reject(new Error("Google Sheet timeout"));
+        }, 7000);
+
+        function cleanup() {
+          window.clearTimeout(timer);
+          delete window[callbackName];
+          script.remove();
+        }
+
+        window[callbackName] = (response) => {
+          try {
+            const normalized = normalizeSheetEquipment(tableFromGviz(response));
+            cleanup();
+            resolve(normalized);
+          } catch (error) {
+            cleanup();
+            reject(error);
+          }
+        };
+
+        script.onerror = () => {
+          cleanup();
+          reject(new Error("Google Sheet script load error"));
+        };
+        script.src = `https://docs.google.com/spreadsheets/d/${CONFIG.sheetId}/gviz/tq?gid=${CONFIG.balanceGid}&tqx=responseHandler:${callbackName}`;
+        document.head.appendChild(script);
+      });
+    }
+
+    function fillSelect(slot, previousValue = null) {
       const select = document.getElementById(slot);
-      select.innerHTML = equipment.filter(item => item.slot === slot).map(item => `<option value="${item.id}">${item.name} · ${item.rarity}</option>`).join("");
-      if (slot === "engine") select.value = "engine_rare";
-      if (slot === "steering") select.value = "steering_rare";
-      if (slot === "cargo") select.value = "cargo_rare";
-      select.addEventListener("change", updateEquipment);
+      const options = equipment.filter(item => item.slot === slot);
+      select.innerHTML = options.map(item => `<option value="${item.id}">${item.name} · ${item.rarity}</option>`).join("");
+      const hasPrevious = previousValue && options.some(item => item.id === previousValue);
+      const hasDefault = options.some(item => item.id === slotDefaults[slot]);
+      select.value = hasPrevious ? previousValue : hasDefault ? slotDefaults[slot] : options[0]?.id || "";
+      select.onchange = updateEquipment;
+    }
+
+    function refreshEquipmentUI(previousValues = {}) {
+      ["engine", "steering", "cargo"].forEach(slot => fillSelect(slot, previousValues[slot]));
+      updateEquipment();
     }
 
     function updateEquipment() {
       const selectedIds = ["engine", "steering", "cargo"].map(id => document.getElementById(id).value);
-      const selected = selectedIds.map(id => equipment.find(item => item.id === id));
+      const selected = selectedIds.map(id => equipment.find(item => item.id === id)).filter(Boolean);
       const totals = {};
       Object.keys(baseStats).forEach(stat => totals[stat] = { flat: 0, pct: 0 });
       selected.forEach(item => Object.entries(item.stats).forEach(([key, value]) => {
@@ -545,8 +715,18 @@
       }).join("");
       document.getElementById("equipmentSummary").textContent = `Выбрано: ${selected.map(item => item.name).join(" · ")}`;
     }
-    ["engine", "steering", "cargo"].forEach(fillSelect);
-    updateEquipment();
+
+    refreshEquipmentUI();
+    loadSheetEquipment()
+      .then(sheetEquipment => {
+        const previousValues = Object.fromEntries(["engine", "steering", "cargo"].map(slot => [slot, document.getElementById(slot).value]));
+        equipment = sheetEquipment;
+        refreshEquipmentUI(previousValues);
+        setEquipmentSource("sheet", "Источник: Google Sheet · fallback сохранен");
+      })
+      .catch(() => {
+        setEquipmentSource("fallback", "Источник: fallback · Google Sheet не загрузился");
+      });
 
     const names = ["Nova", "Pixel", "Vector", "Orbit", "Delta", "Byte", "Comet", "Rift", "Gamma", "Solar", "Pulse", "Atlas", "Vega", "Mira", "Echo", "Flux", "Ion", "Kappa", "Luna", "Quark", "Ray", "Sigma", "Titan", "Zen", "Frost", "Blitz", "Warden", "Rocket", "Ghost", "Magma"];
     let players = [];
