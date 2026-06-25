@@ -544,11 +544,173 @@
       font-size: 12px;
     }
 
+    .quick-nav {
+      position: fixed;
+      z-index: 22;
+      left: 50%;
+      top: 14px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px;
+      border-radius: 999px;
+      background: rgba(4,12,25,.72);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(14px);
+    }
+
+    .quick-nav button {
+      border: 1px solid rgba(36,217,255,.32);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(36,217,255,.1);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .quick-nav button:hover {
+      background: rgba(36,217,255,.22);
+    }
+
     .appendix-link {
       color: var(--cyan);
       font-weight: 900;
       text-decoration: none;
       border-bottom: 1px solid rgba(36,217,255,.55);
+    }
+
+    .concept-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .concept-option {
+      display: grid;
+      gap: 8px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(6,18,38,.55);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .concept-option img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .animated-shell {
+      width: 170px;
+      height: 112px;
+      border-radius: 110px 110px 22px 22px;
+      border: 12px solid var(--cyan);
+      border-bottom: 0;
+      box-shadow: 0 0 34px var(--cyan);
+      animation: shellPhase 4.8s infinite;
+    }
+
+    @keyframes shellPhase {
+      0%, 28% { border-color: var(--cyan); box-shadow: 0 0 34px var(--cyan); }
+      34%, 62% { border-color: var(--yellow); box-shadow: 0 0 34px var(--yellow); }
+      68%, 100% { border-color: var(--violet); box-shadow: 0 0 34px var(--violet); }
+    }
+
+    .proof-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr 330px;
+      grid-template-rows: 1fr auto;
+      gap: 16px;
+      width: min(1200px, 100%);
+      margin: auto;
+    }
+
+    .game-menu {
+      background: linear-gradient(180deg, rgba(7,35,74,.95), rgba(6,18,38,.95));
+      border: 1px solid rgba(36,217,255,.55);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .menu-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 11px;
+      border-radius: 12px;
+      background: rgba(36,217,255,.1);
+      border: 1px solid rgba(36,217,255,.22);
+      color: var(--text);
+      font-weight: 850;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .menu-item.active {
+      background: rgba(87,227,79,.2);
+      border-color: rgba(87,227,79,.65);
+    }
+
+    .menu-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.12);
+      color: var(--cyan);
+      font-weight: 900;
+    }
+
+    .pros-cons {
+      display: grid;
+      gap: 12px;
+    }
+
+    .prompt-mini {
+      grid-column: 1 / -1;
+      max-height: 120px;
+      overflow: auto;
+      font-size: 12px;
+      line-height: 1.32;
+      color: #dff7ff;
+      background: rgba(6,18,38,.84);
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(36,217,255,.32);
+      white-space: pre-wrap;
+    }
+
+    .metric-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .metric-card {
+      min-height: 340px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .metric-card ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 10px;
     }
 
     @media (max-width: 900px) {
@@ -567,6 +729,10 @@
       .screen-card img { height: auto; max-height: 360px; }
       .tower-grid { grid-template-columns: repeat(2, 1fr); }
       .step-row { grid-template-columns: 1fr; }
+      .quick-nav { max-width: calc(100vw - 20px); overflow-x: auto; justify-content: flex-start; }
+      .concept-options, .proof-layout, .metric-list { grid-template-columns: 1fr; }
+      .proof-layout { grid-template-rows: auto; }
+      .prompt-mini { grid-column: auto; }
       .rooms { grid-template-columns: 1fr; max-height: none; }
       .hint { display: none; }
       .nav { bottom: 10px; }
@@ -574,6 +740,12 @@
   </style>
 </head>
 <body>
+  <div class="quick-nav" aria-label="Быстрая навигация по заданиям">
+    <button data-jump="4">Новая башня</button>
+    <button data-jump="6">Новый босс</button>
+    <button data-jump="9">Калькулятор НЛО</button>
+    <button data-jump="10">Турниры</button>
+  </div>
   <main class="deck" id="deck">
     <section class="slide active" data-title="cover">
       <div class="grid-2">
@@ -635,16 +807,30 @@
 
     <section class="slide">
       <div class="topline"></div>
-      <div class="grid-2">
-        <img class="hero-img" src="assets/vulnerability_beacon_concept.png" alt="AI concept reference: Маяк Уязвимости">
+      <div class="grid-2" style="grid-template-columns:.9fr 1.1fr">
+        <div>
+          <h2>3. Маяк Уязвимости</h2>
+          <p class="muted" style="margin-top:12px">Главная задача башни — дать игроку способ сыграть умнее против элиты и босса, не ломая уже построенную оборону.</p>
+          <div class="concept-options">
+            <div class="concept-option">
+              <img src="assets/vulnerability_beacon_concept.png" alt="Вариант визуала башни A">
+              <span class="tag">Вариант A · радар-маяк</span>
+            </div>
+            <div class="concept-option">
+              <img src="assets/vulnerability_beacon_variant_b.png" alt="Вариант визуала башни B">
+              <span class="tag violet">Вариант B · призма цели</span>
+            </div>
+          </div>
+        </div>
         <div class="panel">
           <div class="kicker">AI concept reference</div>
-          <h2 style="margin-top:12px">3. Маяк Уязвимости</h2>
-          <p style="margin-top:24px">Анти-босс / анти-элита support-башня. Собственный урон низкий, ценность — в открытии короткого окна уязвимости.</p>
-          <div style="display:grid; gap:16px; margin-top:28px">
-            <div><strong class="green">Приоритет:</strong> босс → элита → самый высокий HP</div>
-            <div><strong class="cyan">Состояние:</strong> сканирование → метка → окно урона</div>
-            <div><strong class="yellow">Роль:</strong> усиливает уже построенную оборону без требования соседства</div>
+          <h3 style="margin-top:12px">Механика</h3>
+          <p style="margin-top:18px">Башня наносит низкий прямой урон, но накладывает на опасную цель статус <strong class="cyan">«Сканирование»</strong>. После накопления статуса цель получает короткое <strong class="yellow">«Окно уязвимости»</strong>.</p>
+          <div style="display:grid; gap:14px; margin-top:24px">
+            <div><strong class="green">Приоритет:</strong> босс → элита → враг с самым высоким HP.</div>
+            <div><strong class="cyan">Польза:</strong> усиливает Лазер, Снайпера, Рельсотрон, Огненную баллисту и активность НЛО.</div>
+            <div><strong class="yellow">Ограничение:</strong> одновременно активна 1 основная метка; на боссах эффект слабее, но дольше виден.</div>
+            <div><strong class="violet">Почему не DPS:</strong> без других источников урона башня почти не решает волну.</div>
           </div>
         </div>
       </div>
@@ -685,18 +871,34 @@
 
     <section class="slide">
       <div class="topline"></div>
-      <div class="grid-2">
-        <div class="panel red">
+      <div class="grid-2" style="grid-template-columns:1fr 1fr">
+        <div class="panel violet">
           <div class="kicker">AI concept reference</div>
           <h2 style="margin-top:12px">5. Босс: Панцирный Мутант</h2>
-          <p style="margin-top:22px">Mid-game босс, который учит игрока не полагаться только на один тип урона.</p>
-          <div style="display:grid; gap:18px; margin-top:30px">
-            <div><strong class="cyan">Пассивка:</strong> адаптивный панцирь временно получает резист к доминирующему источнику урона.</div>
-            <div><strong class="green">Активка:</strong> сброс панциря меняет фазу уязвимости с телеграфом.</div>
-            <div><strong class="yellow">Counterplay:</strong> игрок переключает фокус между башнями, AoE и НЛО.</div>
+          <p style="margin-top:20px">Mid-game босс, который проверяет разнообразие обороны. Игрок адаптируется во время боя, но не обязан перестраивать башни.</p>
+          <div style="display:grid; gap:14px; margin-top:24px">
+            <div><strong class="cyan">Пассивка · Адаптивный панцирь:</strong> босс отслеживает доминирующий источник урона и временно получает к нему сопротивление.</div>
+            <div><strong class="green">Активка · Сброс панциря:</strong> босс меняет фазу уязвимости после короткого визуального телеграфа.</div>
+            <div><strong class="yellow">Ответ игрока:</strong> переключить вклад между башнями, AoE-контролем и уроном НЛО.</div>
+            <div><strong class="violet">Баланс:</strong> резист снижает эффективность, но не обнуляет уже построенную стратегию.</div>
           </div>
         </div>
-        <img class="hero-img" src="assets/armored_mutant_concept.png" alt="AI concept reference: Панцирный Мутант">
+        <div>
+          <div class="concept-options">
+            <div class="concept-option">
+              <img src="assets/armored_mutant_concept.png" alt="Вариант визуала босса A">
+              <span class="tag">Вариант A · мутант-танк</span>
+            </div>
+            <div class="concept-option">
+              <img src="assets/armored_mutant_variant_b.png" alt="Вариант визуала босса B">
+              <span class="tag violet">Вариант B · панцирная форма</span>
+            </div>
+          </div>
+          <div class="panel tight" style="margin-top:16px; display:grid; grid-template-columns:190px 1fr; gap:18px; align-items:center">
+            <div class="animated-shell"></div>
+            <p class="muted">Анимация фаз: панцирь циклично меняет цвет, показывая смену резиста/уязвимости без лишнего интерфейсного шума.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -754,72 +956,106 @@
       <div class="topline"></div>
       <div style="width:min(1160px,100%); margin:auto">
         <h2>9. Weekend-турнир как хай-тек башня комнат</h2>
-        <p class="muted" style="margin-top:14px">Простой принцип: игроки соревнуются в комнатах по 50 человек, получают очки за уничтожение зомби, а успешные игроки поднимаются выше.</p>
+        <p class="muted" style="margin-top:14px">Принцип должен быть массово понятным: играй обычные уровни, уничтожай зомби, набирай очки, двигайся вверх по виртуальным комнатам.</p>
         <div class="tower-stack" style="margin-top:44px">
           <div class="tier">
             <h3 class="violet">Комнаты I</h3>
-            <p class="small">стартовые группы по параметру Мощи</p>
-            <p class="muted small">базовые призы</p>
+            <p class="small">первичное распределение по параметру Мощи</p>
+            <p class="muted small">честный старт и базовые призы</p>
           </div>
           <div class="tier">
             <h3 class="cyan">Комнаты II</h3>
-            <p class="small">топ игроков из нижнего слоя</p>
-            <p class="muted small">призы лучше</p>
+            <p class="small">успешные игроки поднимаются выше</p>
+            <p class="muted small">конкуренция плотнее, призы лучше</p>
           </div>
           <div class="tier">
             <h3 class="yellow">Комнаты III</h3>
-            <p class="small">сильные и активные игроки</p>
-            <p class="muted small">самые ценные призы</p>
+            <p class="small">сильные и активные игроки выходных</p>
+            <p class="muted small">самые ценные призы события</p>
           </div>
+        </div>
+        <div class="grid-3" style="margin-top:28px">
+          <div class="panel tight"><h3 class="cyan">Старт</h3><p class="small muted">Первая комната строится по Мощи, чтобы новый участник не попадал сразу к сильно превосходящим игрокам.</p></div>
+          <div class="panel tight green"><h3 class="green">Рост</h3><p class="small muted">Высокое место в комнате повышает игрока в следующий слой на будущий турнир или следующий этап события.</p></div>
+          <div class="panel tight yellow"><h3 class="yellow">Мотивация</h3><p class="small muted">Чем выше слой комнаты, тем ценнее финальные награды. Игрок видит понятную лестницу прогресса.</p></div>
         </div>
       </div>
     </section>
 
     <section class="slide">
       <div class="topline"></div>
-      <div class="tournament-demo">
-        <div class="panel">
-          <h2>10. Proof-of-work</h2>
-          <p class="muted" style="margin-top:12px">Демо распределяет игроков по комнатам на основе Мощи и результата прошлого турнира.</p>
-          <button class="btn" id="generatePlayers">Сгенерировать игроков</button>
-          <button class="btn secondary" id="distributePlayers" style="margin-top:12px">Распределить по комнатам</button>
-          <div class="panel tight" style="margin-top:18px; box-shadow:none">
-            <p class="small"><strong class="cyan">Логика:</strong> старт по Мощи → успех повышает комнату → более высокая комната дает более ценные призы.</p>
+      <div class="proof-layout">
+        <div class="game-menu">
+          <div>
+            <div class="kicker">Tournament Control</div>
+            <h2 style="margin-top:8px">10. Proof-of-work</h2>
+          </div>
+          <button class="menu-item active" id="generatePlayers">
+            <span class="menu-icon">01</span>
+            <span>Сгенерировать игроков</span>
+          </button>
+          <button class="menu-item" id="distributePlayers">
+            <span class="menu-icon">02</span>
+            <span>Распределить комнаты</span>
+          </button>
+          <div class="panel tight" style="box-shadow:none">
+            <p class="small"><strong class="cyan">Источник честности:</strong> параметр Мощи.</p>
+            <p class="small muted" style="margin-top:8px">Успех в комнате повышает игрока в следующий слой.</p>
           </div>
         </div>
         <div class="rooms" id="rooms"></div>
+        <div class="pros-cons">
+          <div class="panel green tight">
+            <h3 class="green">Плюсы</h3>
+            <p class="small muted" style="margin-top:10px">Честный старт по Мощи, понятная лестница роста, больше причин играть оба дня события.</p>
+          </div>
+          <div class="panel yellow tight">
+            <h3 class="yellow">Ограничения</h3>
+            <p class="small muted" style="margin-top:10px">Нужны защиты от позднего входа в уже разогнанную комнату и от резкого скачка сложности после повышения.</p>
+          </div>
+          <div class="panel tight">
+            <h3 class="cyan">Почему это удобно</h3>
+            <p class="small muted" style="margin-top:10px">Алгоритм легко объяснить игроку: «побеждай равных, поднимайся выше, получай призы лучше».</p>
+          </div>
+        </div>
+        <pre class="prompt-mini">AI-промпт: распредели игроков по комнатам до 50 человек. Основной параметр — Мощь. Учитывай активность за 7 дней, прошлое место и время входа. Новых игроков помещай в стартовый слой по диапазону Мощи; успешных игроков повышай в комнаты выше; поздних участников не добавляй в комнаты, где топ уже сильно оторвался. Верни room_id, player_id и короткую причину.</pre>
       </div>
     </section>
 
     <section class="slide">
       <div class="topline"></div>
-      <div class="grid-2">
-        <div class="panel">
-          <h2>11. AI-промпт для распределения</h2>
-          <pre class="prompt">Ты AI-ассистент турнирного матчмейкинга Aliens vs Zombies: Invasion.
-
-Распредели игроков по виртуальным комнатам до 50 человек.
-
-Основной параметр честности: Мощь игрока.
-Дополнительные параметры: текущая комната, очки прошлого турнира, активность за 7 дней, время входа в событие.
-
-Правила:
-1. Новых участников сначала распределяй по диапазонам Мощи.
-2. Игроков, успешно занявших высокие места, поднимай в комнаты выше.
-3. Не добавляй поздних игроков в комнаты, где лидеры уже сильно оторвались.
-4. Чем выше комната, тем ценнее призы.
-5. Верни room_id, player_id и короткую причину распределения.</pre>
-        </div>
-        <div class="panel">
-          <h2>12. Метрики</h2>
-          <div class="grid-3" style="grid-template-columns:1fr; margin-top:24px">
-            <div class="panel green tight"><h3 class="green">DAU weekend</h3><p class="small">событие дает причину зайти именно в выходные</p></div>
-            <div class="panel tight"><h3 class="cyan">Retention</h3><p class="small">игрок возвращается проверить место и добрать награды</p></div>
-            <div class="panel yellow tight"><h3 class="yellow">ARPU / ARPPU</h3><p class="small">появляется контекст для энергии, бустеров и офферов</p></div>
+      <div style="width:min(1180px,100%); margin:auto">
+        <h2>12. Метрики: что должно вырасти и почему</h2>
+        <div class="metric-list">
+          <div class="panel metric-card green">
+            <h3 class="green">DAU weekend</h3>
+            <ul class="small muted">
+              <li>48-часовой турнир создает понятную причину зайти именно в субботу и воскресенье.</li>
+              <li>Лестница комнат добавляет цель не только «получить награду», но и подняться выше.</li>
+              <li>Push/entry point события можно завязать на текущую комнату и шанс повышения.</li>
+            </ul>
           </div>
-          <p class="red" style="margin-top:20px">Риск: нечестные комнаты могут поднять краткосрочную монетизацию ценой retention.</p>
-          <p class="muted small" style="margin-top:34px">Артём Кондратенко · Telegram: @Artem_Kondratenko</p>
+          <div class="panel metric-card">
+            <h3 class="cyan">Retention</h3>
+            <ul class="small muted">
+              <li>Игрок возвращается проверить позицию, добрать очки и удержать место в комнате.</li>
+              <li>Повышение в более сильную комнату создает долгосрочную цель на следующие турниры.</li>
+              <li>Важно сохранить ощущение честности: иначе краткий всплеск активности ударит по возвратам.</li>
+            </ul>
+          </div>
+          <div class="panel metric-card yellow">
+            <h3 class="yellow">ARPU / ARPPU</h3>
+            <ul class="small muted">
+              <li>Больше сессий в выходные повышает вероятность покупки энергии, бустеров и событийных офферов.</li>
+              <li>Чем выше комната, тем ценнее призы и тем понятнее мотивация усилить попытку.</li>
+              <li>Монетизация должна помогать догнать цель, но не разрушать доверие к подбору по Мощи.</li>
+            </ul>
+          </div>
         </div>
+        <div class="panel red tight" style="margin-top:22px">
+          <p><strong>Главный риск:</strong> если комнаты ощущаются нечестными или слишком pay-to-win, турнир может поднять краткосрочную выручку ценой retention. Поэтому первичная сортировка по Мощи — не косметика, а защита качества события.</p>
+        </div>
+        <p class="muted small" style="margin-top:24px">Артём Кондратенко · Telegram: @Artem_Kondratenko</p>
       </div>
     </section>
   </main>
@@ -834,7 +1070,7 @@
 
   <script>
     const CONFIG = {
-      googleSheetUrl: "https://docs.google.com/spreadsheets/d/1Qlvhi1V1IXiZnE3Ncs3TvXc9QwteCu1dhysO9UuGEWg/edit?usp=sharing"
+      googleSheetUrl: "#google-sheet-link-pending"
     };
 
     const slides = [...document.querySelectorAll(".slide")];
@@ -862,6 +1098,9 @@
 
     document.getElementById("prev").addEventListener("click", () => showSlide(current - 1));
     document.getElementById("next").addEventListener("click", () => showSlide(current + 1));
+    document.querySelectorAll("[data-jump]").forEach((button) => {
+      button.addEventListener("click", () => showSlide(Number(button.dataset.jump) - 1));
+    });
     document.addEventListener("keydown", (event) => {
       if (["ArrowRight", "PageDown", " "].includes(event.key)) showSlide(current + 1);
       if (["ArrowLeft", "PageUp"].includes(event.key)) showSlide(current - 1);
