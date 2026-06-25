@@ -6,16 +6,15 @@
   <title>Aliens vs Zombies: Invasion — GD Test Task</title>
   <style>
     :root {
-      --bg: #071a38;
-      --bg2: #0c2f63;
-      --panel: #0d2f60;
-      --panel2: #103c78;
+      --bg: #061226;
+      --bg2: #092750;
+      --panel: rgba(13, 47, 96, .86);
+      --panel2: rgba(7, 35, 74, .92);
       --cyan: #24d9ff;
-      --teal: #19d6b3;
       --green: #57e34f;
       --yellow: #ffd54a;
-      --red: #ff5d5d;
       --violet: #9b68ff;
+      --red: #ff6f72;
       --text: #eaf6ff;
       --muted: #9fc3df;
       --dark: #061226;
@@ -25,765 +24,227 @@
     }
 
     * { box-sizing: border-box; }
-
+    html, body { margin: 0; min-height: 100%; }
     body {
-      margin: 0;
       color: var(--text);
       background: radial-gradient(circle at 80% 10%, rgba(36,217,255,.16), transparent 30%),
         linear-gradient(135deg, #061226 0%, #071a38 45%, #092750 100%);
       overflow: hidden;
     }
 
-    button, select { font: inherit; }
+    button, select, a { font: inherit; }
+    a { color: inherit; }
+    h1, h2, h3, p { margin: 0; }
+    ul { margin: 0; padding-left: 20px; }
 
-    .deck {
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
+    h1 { font-size: clamp(40px, 6.4vw, 80px); line-height: .95; letter-spacing: .01em; }
+    h2 { font-size: clamp(27px, 3.8vw, 48px); line-height: 1.06; }
+    h3 { font-size: clamp(19px, 2.2vw, 28px); line-height: 1.12; }
+    p, li { font-size: clamp(14px, 1.55vw, 20px); line-height: 1.32; }
 
+    .deck { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
     .slide {
       position: absolute;
       inset: 0;
-      padding: clamp(22px, 4vw, 54px);
+      padding: clamp(58px, 5vw, 76px) clamp(22px, 4vw, 54px) clamp(70px, 5vw, 90px);
       display: none;
       background:
         radial-gradient(circle at 90% 5%, rgba(36,217,255,.13), transparent 26%),
-        linear-gradient(135deg, var(--bg) 0%, #081f42 100%);
+        linear-gradient(135deg, #071a38 0%, #081f42 100%);
       overflow: hidden;
     }
-
-    .slide.active {
-      display: grid;
-      animation: slideIn .22s ease-out;
-    }
-
-    @keyframes slideIn {
-      from { opacity: .25; transform: translateX(12px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
+    .slide.active { display: grid; animation: slideIn .2s ease-out; }
+    @keyframes slideIn { from { opacity: .25; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
 
     .topline {
-      position: absolute;
-      left: clamp(22px, 4vw, 54px);
-      right: clamp(22px, 4vw, 54px);
-      top: 26px;
-      height: 3px;
-      background: linear-gradient(90deg, var(--cyan), transparent 75%);
-      opacity: .8;
+      position: absolute; left: clamp(22px, 4vw, 54px); right: clamp(22px, 4vw, 54px); top: 48px;
+      height: 3px; background: linear-gradient(90deg, var(--cyan), transparent 75%); opacity: .8;
     }
 
-    h1, h2, h3, p { margin: 0; }
-
-    h1 {
-      font-size: clamp(44px, 7vw, 82px);
-      line-height: .95;
-      letter-spacing: .01em;
-    }
-
-    h2 {
-      font-size: clamp(28px, 4vw, 50px);
-      line-height: 1.05;
-    }
-
-    h3 {
-      font-size: clamp(20px, 2.6vw, 30px);
-      line-height: 1.1;
-    }
-
-    p, li {
-      font-size: clamp(15px, 1.7vw, 22px);
-      line-height: 1.28;
-    }
-
-    .kicker {
-      color: var(--cyan);
-      text-transform: uppercase;
-      font-weight: 800;
-      letter-spacing: .08em;
-      font-size: 13px;
-    }
-
+    .kicker { color: var(--cyan); text-transform: uppercase; font-weight: 850; letter-spacing: .08em; font-size: 13px; }
     .muted { color: var(--muted); }
-    .cyan { color: var(--cyan); }
-    .green { color: var(--green); }
-    .yellow { color: var(--yellow); }
-    .red { color: var(--red); }
-    .violet { color: var(--violet); }
+    .cyan { color: var(--cyan); } .green { color: var(--green); } .yellow { color: var(--yellow); } .violet { color: var(--violet); } .red { color: var(--red); }
+    .small { font-size: clamp(12px, 1.15vw, 15px); line-height: 1.25; }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(20px, 3vw, 42px);
-      align-items: center;
-      width: min(1180px, 100%);
-      margin: auto;
-    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 42px); align-items: center; width: min(1180px, 100%); margin: auto; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; width: min(1160px, 100%); margin: auto; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; width: min(1180px, 100%); margin: auto; }
 
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-      width: min(1160px, 100%);
-      margin: auto;
-    }
-
-    .panel {
-      background: rgba(13, 47, 96, .82);
-      border: 1px solid rgba(36,217,255,.42);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      padding: 24px;
-      backdrop-filter: blur(8px);
-    }
-
-    .panel.tight { padding: 16px; }
+    .panel { background: var(--panel); border: 1px solid rgba(36,217,255,.42); border-radius: 18px; box-shadow: var(--shadow); padding: 22px; backdrop-filter: blur(8px); }
+    .panel.tight { padding: 15px; }
     .panel.green { border-color: rgba(87,227,79,.7); }
-    .panel.yellow { border-color: rgba(255,213,74,.8); }
-    .panel.red { border-color: rgba(255,93,93,.8); }
-    .panel.violet { border-color: rgba(155,104,255,.8); }
-
-    .hero-img {
-      width: 100%;
-      max-height: 78vh;
-      object-fit: contain;
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .screenshot {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.1);
-      box-shadow: 0 16px 48px rgba(0,0,0,.28);
-    }
-
-    .screen-strip {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 18px;
-      width: min(1160px, 100%);
-      margin: auto;
-    }
-
-    .screen-card {
-      min-height: 410px;
-      display: grid;
-      grid-template-rows: 1fr auto;
-      gap: 12px;
-    }
-
-    .screen-card img { height: 390px; }
-
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 32px;
-      padding: 7px 14px;
-      border-radius: 999px;
-      color: var(--dark);
-      background: var(--cyan);
-      font-weight: 800;
-      font-size: 13px;
-    }
-
-    .tag.green { background: var(--green); }
-    .tag.yellow { background: var(--yellow); }
-    .tag.violet { background: var(--violet); color: white; }
-    .tag.red { background: var(--red); color: white; }
-
-    .tower-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 12px;
-    }
-
-    .tower {
-      display: grid;
-      gap: 8px;
-      text-align: center;
-    }
-
-    .tower img {
-      width: 100%;
-      aspect-ratio: 9 / 16;
-      object-fit: cover;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,.12);
-    }
-
-    .small {
-      font-size: clamp(12px, 1.25vw, 15px);
-      line-height: 1.2;
-    }
-
-    .step-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      align-items: stretch;
-    }
-
-    .step {
-      min-height: 320px;
-      display: grid;
-      gap: 18px;
-      align-content: start;
-      text-align: center;
-    }
-
-    .step .num {
-      font-size: 48px;
-      line-height: 1;
-      color: var(--cyan);
-      font-weight: 900;
-    }
-
-    .target-demo {
-      height: 150px;
-      position: relative;
-      border-radius: 16px;
-      background: radial-gradient(circle, rgba(36,217,255,.22), transparent 62%);
-      border: 1px dashed rgba(255,255,255,.2);
-    }
-
-    .enemy-dot {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--red);
-      box-shadow: 0 0 30px rgba(255,93,93,.9);
-    }
-
-    .scan-line {
-      position: absolute;
-      left: 50%;
-      top: 8%;
-      width: 4px;
-      height: 84%;
-      transform: translateX(-50%);
-      background: var(--cyan);
-      box-shadow: 0 0 18px var(--cyan);
-      animation: pulse 1.4s infinite;
-    }
-
-    .mark {
-      position: absolute;
-      left: calc(50% - 18px);
-      top: 20%;
-      width: 36px;
-      height: 36px;
-      transform: rotate(45deg);
-      background: var(--yellow);
-      box-shadow: 0 0 18px rgba(255,213,74,.85);
-    }
-
-    .hit-ray {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 120px;
-      height: 3px;
-      transform-origin: left center;
-      background: var(--green);
-      box-shadow: 0 0 12px var(--green);
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: .45; transform: translateX(-50%) scaleY(.95); }
-      50% { opacity: 1; transform: translateX(-50%) scaleY(1.05); }
-    }
-
-    .phase-card {
-      min-height: 250px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      gap: 14px;
-    }
-
-    .shell {
-      width: 150px;
-      height: 96px;
-      border-radius: 100px 100px 20px 20px;
-      border: 10px solid var(--cyan);
-      border-bottom: 0;
-      box-shadow: 0 0 30px currentColor;
-      opacity: .95;
-    }
-
-    .sheet-grid {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 24px;
-      align-items: stretch;
-      width: min(1160px, 100%);
-      margin: auto;
-    }
-
-    .sheet-preview {
-      display: grid;
-      gap: 10px;
-      background: #f8fbff;
-      color: #173250;
-      padding: 18px;
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-    }
-
-    .sheet-row {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr .8fr;
-      gap: 8px;
-      align-items: center;
-      padding: 9px 10px;
-      border-radius: 9px;
-      background: #e9f3ff;
-      font-size: 13px;
-    }
-
-    .sheet-row.head {
-      background: #0b5cad;
-      color: white;
-      font-weight: 800;
-    }
-
-    .interactive {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 28px;
-      align-items: stretch;
-      width: min(1160px, 100%);
-      margin: auto;
-    }
-
-    label {
-      display: grid;
-      gap: 8px;
-      margin-bottom: 18px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    select, .input-like {
-      width: 100%;
-      color: var(--text);
-      background: rgba(6,18,38,.86);
-      border: 1px solid rgba(36,217,255,.58);
-      border-radius: 12px;
-      padding: 12px 14px;
-      outline: none;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .stat {
-      display: grid;
-      gap: 8px;
-      padding: 18px;
-      border-radius: 14px;
-      background: rgba(6,18,38,.58);
-      border: 1px solid rgba(255,255,255,.12);
-    }
-
-    .stat strong {
-      font-size: 30px;
-      color: var(--green);
-    }
-
-    .tower-stack {
-      width: min(760px, 100%);
-      margin: auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 24px;
-      align-items: end;
-    }
-
-    .tier {
-      display: grid;
-      gap: 8px;
-      padding: 14px;
-      border: 1px solid rgba(36,217,255,.52);
-      border-radius: 14px;
-      background: rgba(13,47,96,.76);
-      min-height: 90px;
-      text-align: center;
-    }
-
-    .tier:nth-child(1) { min-height: 190px; border-color: var(--violet); }
-    .tier:nth-child(2) { min-height: 270px; border-color: var(--cyan); }
-    .tier:nth-child(3) { min-height: 350px; border-color: var(--yellow); }
-
-    .tournament-demo {
-      display: grid;
-      grid-template-columns: 350px 1fr;
-      gap: 24px;
-      width: min(1180px, 100%);
-      margin: auto;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 12px;
-      padding: 12px 16px;
-      color: var(--dark);
-      background: var(--green);
-      font-weight: 900;
-      cursor: pointer;
-      transition: transform .14s, filter .14s;
-    }
-
-    .btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
-    .btn.secondary { background: var(--cyan); }
-
-    .rooms {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      max-height: 456px;
-      overflow: auto;
-      padding-right: 4px;
-    }
-
-    .room {
-      border-radius: 14px;
-      border: 1px solid rgba(36,217,255,.45);
-      background: rgba(6,18,38,.62);
-      padding: 12px;
-      min-height: 142px;
-    }
-
-    .player {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      font-size: 12px;
-      padding: 4px 0;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      color: var(--muted);
-    }
-
-    pre.prompt {
-      white-space: pre-wrap;
-      max-height: 330px;
-      overflow: auto;
-      font-size: 14px;
-      line-height: 1.32;
-      color: #dff7ff;
-      background: rgba(6,18,38,.82);
-      padding: 18px;
-      border-radius: 14px;
-      border: 1px solid rgba(36,217,255,.32);
-    }
-
-    .nav {
-      position: fixed;
-      z-index: 20;
-      left: 50%;
-      bottom: 16px;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: rgba(4,12,25,.72);
-      border: 1px solid rgba(255,255,255,.12);
-      backdrop-filter: blur(14px);
-    }
-
-    .nav button {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 0;
-      color: var(--text);
-      background: rgba(36,217,255,.18);
-      cursor: pointer;
-      font-weight: 900;
-    }
-
-    .counter {
-      min-width: 62px;
-      text-align: center;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 13px;
-    }
-
-    .progress {
-      position: fixed;
-      z-index: 21;
-      left: 0;
-      bottom: 0;
-      height: 4px;
-      width: 0%;
-      background: linear-gradient(90deg, var(--cyan), var(--green));
-      transition: width .2s ease;
-    }
-
-    .hint {
-      position: fixed;
-      right: 18px;
-      bottom: 22px;
-      z-index: 20;
-      color: rgba(234,246,255,.5);
-      font-size: 12px;
-    }
-
-    .quick-nav {
-      position: fixed;
-      z-index: 22;
-      left: 50%;
-      top: 14px;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      padding: 8px;
-      border-radius: 999px;
-      background: rgba(4,12,25,.72);
-      border: 1px solid rgba(255,255,255,.12);
-      backdrop-filter: blur(14px);
-    }
-
-    .quick-nav button {
-      border: 1px solid rgba(36,217,255,.32);
-      border-radius: 999px;
-      padding: 8px 12px;
-      background: rgba(36,217,255,.1);
-      color: var(--text);
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 850;
-      white-space: nowrap;
-    }
-
-    .quick-nav button:hover {
-      background: rgba(36,217,255,.22);
-    }
-
-    .appendix-link {
-      color: var(--cyan);
-      font-weight: 900;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(36,217,255,.55);
-    }
-
-    .concept-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .concept-option {
-      display: grid;
-      gap: 8px;
-      padding: 10px;
-      border-radius: 14px;
-      background: rgba(6,18,38,.55);
-      border: 1px solid rgba(255,255,255,.12);
-    }
-
-    .concept-option img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-
-    .animated-shell {
-      width: 170px;
-      height: 112px;
-      border-radius: 110px 110px 22px 22px;
-      border: 12px solid var(--cyan);
-      border-bottom: 0;
-      box-shadow: 0 0 34px var(--cyan);
-      animation: shellPhase 4.8s infinite;
-    }
-
-    @keyframes shellPhase {
-      0%, 28% { border-color: var(--cyan); box-shadow: 0 0 34px var(--cyan); }
-      34%, 62% { border-color: var(--yellow); box-shadow: 0 0 34px var(--yellow); }
-      68%, 100% { border-color: var(--violet); box-shadow: 0 0 34px var(--violet); }
-    }
-
-    .proof-layout {
-      display: grid;
-      grid-template-columns: 250px 1fr 330px;
-      grid-template-rows: 1fr auto;
-      gap: 16px;
-      width: min(1200px, 100%);
-      margin: auto;
-    }
-
-    .game-menu {
-      background: linear-gradient(180deg, rgba(7,35,74,.95), rgba(6,18,38,.95));
-      border: 1px solid rgba(36,217,255,.55);
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow: var(--shadow);
-      display: grid;
-      gap: 12px;
-      align-content: start;
-    }
-
-    .menu-item {
-      display: grid;
-      grid-template-columns: 34px 1fr;
-      gap: 10px;
-      align-items: center;
-      padding: 11px;
-      border-radius: 12px;
-      background: rgba(36,217,255,.1);
-      border: 1px solid rgba(36,217,255,.22);
-      color: var(--text);
-      font-weight: 850;
-      cursor: pointer;
-      text-align: left;
-    }
-
-    .menu-item.active {
-      background: rgba(87,227,79,.2);
-      border-color: rgba(87,227,79,.65);
-    }
-
-    .menu-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      background: rgba(255,255,255,.12);
-      color: var(--cyan);
-      font-weight: 900;
-    }
-
-    .pros-cons {
-      display: grid;
-      gap: 12px;
-    }
-
-    .prompt-mini {
-      grid-column: 1 / -1;
-      max-height: 120px;
-      overflow: auto;
-      font-size: 12px;
-      line-height: 1.32;
-      color: #dff7ff;
-      background: rgba(6,18,38,.84);
-      padding: 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(36,217,255,.32);
-      white-space: pre-wrap;
-    }
-
-    .metric-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 30px;
-    }
-
-    .metric-card {
-      min-height: 340px;
-      display: grid;
-      gap: 14px;
-      align-content: start;
-    }
-
-    .metric-card ul {
-      margin: 0;
-      padding-left: 18px;
-      display: grid;
-      gap: 10px;
-    }
-
-    @media (max-width: 900px) {
+    .panel.yellow { border-color: rgba(255,213,74,.78); }
+    .panel.violet { border-color: rgba(155,104,255,.78); }
+    .panel.red { border-color: rgba(255,111,114,.72); }
+
+    .hero-img { width: 100%; max-height: 74vh; object-fit: contain; border-radius: 18px; box-shadow: var(--shadow); }
+    .screenshot { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; border: 1px solid rgba(255,255,255,.1); box-shadow: 0 16px 48px rgba(0,0,0,.28); }
+
+    .tag { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 7px 13px; border-radius: 999px; color: var(--dark); background: var(--cyan); font-weight: 850; font-size: 13px; text-decoration: none; }
+    .tag.green { background: var(--green); } .tag.yellow { background: var(--yellow); } .tag.violet { background: var(--violet); color: white; } .tag.red { background: var(--red); color: white; }
+
+    .pdf-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; align-items: center; }
+    .pdf-link { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 8px 13px; border-radius: 999px; color: var(--text); background: rgba(36,217,255,.12); border: 1px solid rgba(36,217,255,.44); text-decoration: none; font-weight: 850; font-size: 13px; }
+    .pdf-link:hover { background: rgba(36,217,255,.22); }
+    .pdf-link.primary { background: linear-gradient(90deg, rgba(87,227,79,.34), rgba(36,217,255,.24)); border-color: rgba(87,227,79,.68); }
+
+    .quick-nav { position: fixed; z-index: 30; left: 50%; top: 14px; transform: translateX(-50%); display: flex; gap: 8px; align-items: center; padding: 8px; border-radius: 999px; background: rgba(4,12,25,.78); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(14px); box-shadow: 0 10px 40px rgba(0,0,0,.28); max-width: calc(100vw - 24px); }
+    .quick-nav button, .quick-nav a { border: 1px solid rgba(36,217,255,.32); border-radius: 999px; padding: 8px 12px; background: rgba(36,217,255,.1); color: var(--text); cursor: pointer; font-size: 12px; font-weight: 850; white-space: nowrap; text-decoration: none; }
+    .quick-nav button:hover, .quick-nav a:hover { background: rgba(36,217,255,.22); }
+    .quick-nav a.full { background: rgba(87,227,79,.18); border-color: rgba(87,227,79,.6); }
+
+    .nav { position: fixed; z-index: 28; left: 50%; bottom: 16px; transform: translateX(-50%); display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 999px; background: rgba(4,12,25,.72); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(14px); }
+    .nav button { width: 36px; height: 36px; border-radius: 50%; border: 0; color: var(--text); background: rgba(36,217,255,.18); cursor: pointer; font-weight: 900; }
+    .counter { min-width: 62px; text-align: center; color: var(--muted); font-weight: 850; font-size: 13px; }
+    .progress { position: fixed; z-index: 29; left: 0; bottom: 0; height: 4px; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--green)); transition: width .2s ease; }
+    .hint { position: fixed; right: 18px; bottom: 22px; z-index: 20; color: rgba(234,246,255,.5); font-size: 12px; }
+
+    .screen-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; width: min(1160px, 100%); margin: auto; }
+    .screen-card { min-height: 390px; display: grid; grid-template-rows: 1fr auto; gap: 10px; }
+    .screen-card img { height: 360px; }
+
+    .tower-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 11px; }
+    .tower { display: grid; gap: 8px; text-align: center; }
+    .tower img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,.12); }
+
+    .mini-table { display: grid; gap: 1px; overflow: hidden; border-radius: 12px; border: 1px solid rgba(36,217,255,.34); }
+    .mini-row { display: grid; grid-template-columns: .9fr 1.6fr; gap: 12px; padding: 10px 12px; background: rgba(6,18,38,.48); }
+    .mini-row.head { background: rgba(36,217,255,.22); color: var(--text); font-weight: 850; }
+    .mini-row span { font-size: 13px; line-height: 1.25; }
+
+    .concept-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+    .concept-option { display: grid; gap: 8px; padding: 10px; border-radius: 14px; background: rgba(6,18,38,.55); border: 1px solid rgba(255,255,255,.12); }
+    .concept-option img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 12px; }
+
+    .step-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+    .step { min-height: 300px; display: grid; gap: 14px; align-content: start; text-align: center; }
+    .step .num { font-size: 42px; line-height: 1; color: var(--green); font-weight: 950; }
+    .target-demo { height: 145px; position: relative; border-radius: 16px; background: radial-gradient(circle, rgba(36,217,255,.22), transparent 62%); border: 1px dashed rgba(255,255,255,.2); overflow: hidden; }
+    .enemy-dot { width: 54px; height: 54px; border-radius: 50%; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--red); box-shadow: 0 0 30px rgba(255,111,114,.86); }
+    .scan-line { position: absolute; left: 50%; top: 6%; width: 4px; height: 88%; transform: translateX(-50%); background: var(--cyan); box-shadow: 0 0 18px var(--cyan); animation: scanPulse 1.4s infinite; }
+    .mark { position: absolute; left: calc(50% - 19px); top: 22%; width: 38px; height: 38px; transform: rotate(45deg); background: var(--yellow); box-shadow: 0 0 18px rgba(255,213,74,.85); }
+    .hit-ray { position: absolute; left: 50%; top: 50%; width: 130px; height: 3px; transform-origin: left center; background: var(--green); box-shadow: 0 0 12px var(--green); }
+    .hit-ray.r2 { transform: rotate(-18deg); } .hit-ray.r3 { transform: rotate(18deg); }
+    @keyframes scanPulse { 0%, 100% { opacity: .45; transform: translateX(-50%) scaleY(.95); } 50% { opacity: 1; transform: translateX(-50%) scaleY(1.05); } }
+
+    .phase-card { min-height: 250px; display: grid; place-items: center; text-align: center; gap: 13px; }
+    .shell, .animated-shell { width: 150px; height: 96px; border-radius: 100px 100px 20px 20px; border: 10px solid var(--cyan); border-bottom: 0; box-shadow: 0 0 30px currentColor; opacity: .95; }
+    .animated-shell { width: 170px; height: 112px; border-width: 12px; animation: shellPhase 4.8s infinite; }
+    @keyframes shellPhase { 0%, 28% { border-color: var(--cyan); box-shadow: 0 0 34px var(--cyan); } 34%, 62% { border-color: var(--yellow); box-shadow: 0 0 34px var(--yellow); } 68%, 100% { border-color: var(--violet); box-shadow: 0 0 34px var(--violet); } }
+
+    .sheet-grid { display: grid; grid-template-columns: 390px 1fr; gap: 24px; align-items: stretch; width: min(1160px, 100%); margin: auto; }
+    .sheet-preview { display: grid; gap: 10px; background: #f8fbff; color: #173250; padding: 18px; border-radius: 16px; box-shadow: var(--shadow); }
+    .sheet-row { display: grid; grid-template-columns: 1.1fr 1.3fr .9fr; gap: 8px; align-items: center; padding: 9px 10px; border-radius: 9px; background: #e9f3ff; font-size: 13px; }
+    .sheet-row.head { background: #0b5cad; color: white; font-weight: 850; }
+
+    .interactive { display: grid; grid-template-columns: 360px 1fr; gap: 28px; align-items: stretch; width: min(1160px, 100%); margin: auto; }
+    label { display: grid; gap: 8px; margin-bottom: 18px; color: var(--muted); font-weight: 750; }
+    select, .input-like { width: 100%; color: var(--text); background: rgba(6,18,38,.86); border: 1px solid rgba(36,217,255,.58); border-radius: 12px; padding: 12px 14px; outline: none; }
+    .result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .stat { display: grid; gap: 8px; padding: 18px; border-radius: 14px; background: rgba(6,18,38,.58); border: 1px solid rgba(255,255,255,.12); }
+    .stat strong { font-size: 31px; color: var(--green); }
+
+    .tower-stack-v2 { width: min(780px, 100%); margin: 28px auto 0; display: grid; gap: 14px; }
+    .tier-v2 { position: relative; display: grid; grid-template-columns: 190px 1fr 140px; gap: 18px; align-items: center; padding: 18px; border-radius: 18px; background: linear-gradient(90deg, rgba(13,47,96,.92), rgba(6,18,38,.74)); border: 2px solid rgba(36,217,255,.58); box-shadow: 0 18px 60px rgba(0,0,0,.22); }
+    .tier-v2:after { content: ""; position: absolute; left: 50%; bottom: -16px; width: 2px; height: 16px; background: rgba(36,217,255,.8); }
+    .tier-v2:first-child { border-color: rgba(255,213,74,.9); }
+    .tier-v2:last-child:after { display: none; }
+    .tier-v2 .rooms-mini { display: flex; gap: 8px; flex-wrap: wrap; }
+    .room-pill { width: 34px; height: 18px; border-radius: 5px; border: 1px solid currentColor; opacity: .95; }
+
+    .proof-layout { display: grid; grid-template-columns: 250px 1fr 330px; grid-template-rows: 1fr auto; gap: 16px; width: min(1200px, 100%); margin: auto; }
+    .game-menu { background: linear-gradient(180deg, rgba(7,35,74,.96), rgba(6,18,38,.96)); border: 1px solid rgba(36,217,255,.55); border-radius: 18px; padding: 16px; box-shadow: var(--shadow); display: grid; gap: 12px; align-content: start; }
+    .menu-item { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: center; padding: 11px; border-radius: 12px; background: rgba(36,217,255,.1); border: 1px solid rgba(36,217,255,.22); color: var(--text); font-weight: 850; cursor: pointer; text-align: left; }
+    .menu-item.active { background: rgba(87,227,79,.2); border-color: rgba(87,227,79,.65); }
+    .menu-icon { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: rgba(255,255,255,.12); color: var(--cyan); font-weight: 950; }
+    .rooms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-height: 456px; overflow: auto; padding-right: 4px; }
+    .room { border-radius: 14px; border: 1px solid rgba(36,217,255,.45); background: rgba(6,18,38,.62); padding: 12px; min-height: 150px; }
+    .room h3 { font-size: 18px; }
+    .player { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,.08); color: var(--muted); }
+    .pros-cons { display: grid; gap: 12px; }
+    .prompt-mini { grid-column: 1 / -1; max-height: 124px; overflow: auto; font-size: 12px; line-height: 1.32; color: #dff7ff; background: rgba(6,18,38,.84); padding: 14px; border-radius: 14px; border: 1px solid rgba(36,217,255,.32); white-space: pre-wrap; }
+
+    .metric-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+    .metric-card { min-height: 335px; display: grid; gap: 14px; align-content: start; }
+    .metric-card ul { display: grid; gap: 10px; }
+
+    @media (max-width: 960px) {
       body { overflow: auto; }
       .deck { height: auto; min-height: 100vh; }
-      .slide {
-        position: relative;
-        min-height: 100vh;
-        overflow: visible;
-        padding: 54px 20px 86px;
-      }
+      .slide { position: relative; min-height: 100vh; overflow: visible; padding: 72px 18px 88px; }
       .slide:not(.active) { display: none; }
-      .grid-2, .grid-3, .screen-strip, .sheet-grid, .interactive, .tournament-demo {
-        grid-template-columns: 1fr;
-      }
+      .quick-nav { justify-content: flex-start; overflow-x: auto; max-width: calc(100vw - 20px); border-radius: 18px; }
+      .grid-2, .grid-3, .grid-4, .screen-strip, .sheet-grid, .interactive, .proof-layout, .metric-list { grid-template-columns: 1fr; }
+      .screen-card { min-height: auto; }
       .screen-card img { height: auto; max-height: 360px; }
       .tower-grid { grid-template-columns: repeat(2, 1fr); }
       .step-row { grid-template-columns: 1fr; }
-      .quick-nav { max-width: calc(100vw - 20px); overflow-x: auto; justify-content: flex-start; }
-      .concept-options, .proof-layout, .metric-list { grid-template-columns: 1fr; }
-      .proof-layout { grid-template-rows: auto; }
-      .prompt-mini { grid-column: auto; }
+      .concept-options { grid-template-columns: 1fr; }
+      .result-grid { grid-template-columns: 1fr; }
+      .tier-v2 { grid-template-columns: 1fr; }
+      .tier-v2:after { left: 28px; }
       .rooms { grid-template-columns: 1fr; max-height: none; }
+      .prompt-mini { grid-column: auto; }
       .hint { display: none; }
       .nav { bottom: 10px; }
     }
   </style>
 </head>
 <body>
-  <div class="quick-nav" aria-label="Быстрая навигация по заданиям">
+  <div class="quick-nav" aria-label="Быстрая навигация по заданию">
     <button data-jump="4">Новая башня</button>
     <button data-jump="6">Новый босс</button>
     <button data-jump="9">Калькулятор НЛО</button>
     <button data-jump="10">Турниры</button>
+    <a class="full" href="docs/avz_game_gears_gdd_full_v03_final.pdf" target="_blank" rel="noopener">Полная версия задания</a>
   </div>
+
   <main class="deck" id="deck">
     <section class="slide active" data-title="cover">
       <div class="grid-2">
         <div>
-          <div class="kicker">Game Gears · GD Test Task</div>
-          <h1 style="margin-top:18px">Aliens vs Zombies:<br><span class="cyan">Invasion</span></h1>
-          <p style="margin-top:28px; max-width:620px">Новые боевые сущности, калькулятор экипировки НЛО и система weekend-турниров.</p>
-          <div style="display:flex; gap:16px; margin-top:44px; flex-wrap:wrap">
+          <div class="kicker">Aliens vs Zombies: Invasion · GD test task</div>
+          <h1 style="margin-top:18px">Тестовое задание<br><span class="cyan">Game Gears</span></h1>
+          <p style="margin-top:24px; max-width:650px">Новая башня, новый босс, калькулятор экипировки НЛО и weekend-турнир с распределением игроков по комнатам.</p>
+          <div style="display:flex; gap:12px; margin-top:34px; flex-wrap:wrap">
             <span class="tag green">пройдено 8 локаций</span>
-            <span class="tag yellow">AI-assisted workflow</span>
+            <span class="tag yellow">PDF + web-интерактивы</span>
+            <span class="tag violet">AI-assisted workflow</span>
           </div>
-          <p class="muted small" style="margin-top:70px">Артём Кондратенко · Telegram: @Artem_Kondratenko</p>
+          <div class="pdf-row">
+            <a class="pdf-link primary" href="docs/avz_game_gears_gdd_full_v03_final.pdf" target="_blank" rel="noopener">Открыть полную PDF-версию</a>
+            <a class="pdf-link" href="https://docs.google.com/spreadsheets/d/1Qlvhi1V1IXiZnE3Ncs3TvXc9QwteCu1dhysO9UuGEWg/edit?usp=sharing" target="_blank" rel="noopener">Google Sheet экипировки</a>
+          </div>
+          <p class="muted small" style="margin-top:44px">Артём Кондратенко · Telegram: @Artem_Kondratenko</p>
         </div>
         <img class="hero-img" src="assets/gameplay_boss.jpg" alt="Бой с боссом в Aliens vs Zombies">
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="observations">
       <div class="topline"></div>
       <div style="width:min(1180px,100%); margin:auto">
-        <h2>1. Что показало прохождение</h2>
-        <p class="muted" style="margin-top:10px">Основной вывод: новые механики должны работать с уже построенной обороной, потому что переставлять башни во время боя нельзя.</p>
-        <div class="screen-strip" style="margin-top:34px">
+        <h2>1. Наблюдения после прохождения</h2>
+        <p class="muted" style="margin-top:12px; max-width:1000px">Ключевое ограничение: уже поставленные башни нельзя свободно переносить, уничтожать или перестраивать во время боя. Поэтому новые механики должны работать через выбранную цель или состояние врага, а не через идеальное соседство башен.</p>
+        <div class="screen-strip" style="margin-top:28px">
           <div class="screen-card"><img class="screenshot" src="assets/map_campaign1.jpg" alt="Карта кампании"><span class="tag green">карта</span></div>
-          <div class="screen-card"><img class="screenshot" src="assets/gameplay_build.jpg" alt="Строительство башни"><span class="tag">строительство</span></div>
-          <div class="screen-card"><img class="screenshot" src="assets/gameplay_place.jpg" alt="Постановка башни"><span class="tag">позиция</span></div>
+          <div class="screen-card"><img class="screenshot" src="assets/gameplay_build.jpg" alt="Строительство башни"><span class="tag">бой</span></div>
           <div class="screen-card"><img class="screenshot" src="assets/ufo_inventory.jpg" alt="Инвентарь НЛО"><span class="tag violet">мета НЛО</span></div>
           <div class="screen-card"><img class="screenshot" src="assets/gameplay_boss.jpg" alt="Босс"><span class="tag red">босс</span></div>
+          <div class="screen-card"><img class="screenshot" src="assets/ufo_tree1.jpg" alt="Апгрейды"><span class="tag yellow">апгрейды</span></div>
+        </div>
+        <div class="pdf-row">
+          <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=2" target="_blank" rel="noopener">Подробнее в PDF: наблюдения</a>
         </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="tower-map">
       <div class="topline"></div>
       <div class="grid-2" style="grid-template-columns: 1.7fr .9fr">
         <div>
           <h2>2. Карта текущих башен</h2>
-          <div class="tower-grid" style="margin-top:24px">
+          <div class="tower-grid" style="margin-top:22px">
             <div class="tower"><img src="assets/tower_turret.jpg" alt=""><span class="small">Турель</span></div>
             <div class="tower"><img src="assets/tower_ice_dagger.jpg" alt=""><span class="small">Лед. кинжал</span></div>
             <div class="tower"><img src="assets/tower_mortar.jpg" alt=""><span class="small">Мортира</span></div>
@@ -797,265 +258,209 @@
           </div>
         </div>
         <div class="panel yellow">
-          <h3 class="yellow">Дизайн-возможность</h3>
-          <p style="margin-top:20px">Уже есть много прямого урона, AoE, замедления и заморозки.</p>
-          <p class="muted" style="margin-top:22px">Слабее представлены: окна уязвимости, целевой фокус по элите, поддержка без соседства башен.</p>
-          <p style="margin-top:22px">Новая башня должна менять ценность обороны, а не просто добавлять еще один DPS-поинт.</p>
+          <h3 class="yellow">Свободная ниша</h3>
+          <p style="margin-top:18px">В игре уже хорошо закрыты прямой урон, урон по области, замедление, заморозка и дальняя стрельба.</p>
+          <p class="muted" style="margin-top:18px">Слабее представлены временные окна уязвимости, фокус по элитной цели и поддержка уже построенной обороны без требования ставить башни рядом.</p>
+          <div class="pdf-row">
+            <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=2" target="_blank" rel="noopener">PDF: роли башен</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="beacon">
       <div class="topline"></div>
-      <div class="grid-2" style="grid-template-columns:.9fr 1.1fr">
+      <div class="grid-2" style="grid-template-columns: .95fr 1.05fr">
         <div>
-          <h2>3. Маяк Уязвимости</h2>
-          <p class="muted" style="margin-top:12px">Главная задача башни — дать игроку способ сыграть умнее против элиты и босса, не ломая уже построенную оборону.</p>
-          <div class="concept-options">
-            <div class="concept-option">
-              <img src="assets/vulnerability_beacon_concept.png" alt="Вариант визуала башни A">
-              <span class="tag">Вариант A · радар-маяк</span>
-            </div>
-            <div class="concept-option">
-              <img src="assets/vulnerability_beacon_variant_b.png" alt="Вариант визуала башни B">
-              <span class="tag violet">Вариант B · призма цели</span>
-            </div>
+          <div class="kicker">Задание 1 · новая башня</div>
+          <h2 style="margin-top:8px">3. Маяк Уязвимости</h2>
+          <p style="margin-top:18px">Башня поддержки против боссов и элитных врагов. Она почти не решает волну собственным уроном, а выделяет самую опасную цель и открывает короткое окно, в которое НЛО и башни лучше реализуют уже имеющийся урон.</p>
+          <div class="mini-table" style="margin-top:22px">
+            <div class="mini-row head"><span>Параметр</span><span>Решение</span></div>
+            <div class="mini-row"><span>Роль</span><span>анти-босс / анти-элита</span></div>
+            <div class="mini-row"><span>Тип атаки</span><span>сканирующий луч</span></div>
+            <div class="mini-row"><span>Приоритет</span><span>босс → элита → самый крепкий враг</span></div>
+            <div class="mini-row"><span>Ограничение</span><span>низкий урон, мягкий эффект на боссах, задержка повторной метки</span></div>
+          </div>
+          <div class="pdf-row">
+            <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=3" target="_blank" rel="noopener">PDF: механика маяка</a>
+            <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=4" target="_blank" rel="noopener">PDF: баланс и синергии</a>
           </div>
         </div>
         <div class="panel">
-          <div class="kicker">AI concept reference</div>
-          <h3 style="margin-top:12px">Механика</h3>
-          <p style="margin-top:18px">Башня наносит низкий прямой урон, но накладывает на опасную цель статус <strong class="cyan">«Сканирование»</strong>. После накопления статуса цель получает короткое <strong class="yellow">«Окно уязвимости»</strong>.</p>
-          <div style="display:grid; gap:14px; margin-top:24px">
-            <div><strong class="green">Приоритет:</strong> босс → элита → враг с самым высоким HP.</div>
-            <div><strong class="cyan">Польза:</strong> усиливает Лазер, Снайпера, Рельсотрон, Огненную баллисту и активность НЛО.</div>
-            <div><strong class="yellow">Ограничение:</strong> одновременно активна 1 основная метка; на боссах эффект слабее, но дольше виден.</div>
-            <div><strong class="violet">Почему не DPS:</strong> без других источников урона башня почти не решает волну.</div>
+          <h3>Визуальные варианты</h3>
+          <div class="concept-options">
+            <div class="concept-option"><img src="assets/vulnerability_beacon_concept.png" alt="Радар-маяк"><strong>Радар-маяк</strong><p class="small muted">Технологичный сканер, хорошо читается как устройство анализа цели.</p></div>
+            <div class="concept-option"><img src="assets/vulnerability_beacon_variant_b.png" alt="Призма цели"><strong>Призма цели</strong><p class="small muted">Более инопланетный образ с голографической меткой.</p></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="beacon-flow">
       <div class="topline"></div>
       <div style="width:min(1160px,100%); margin:auto">
         <h2>4. Механика башни в 3 кадра</h2>
-        <div class="step-row" style="margin-top:36px">
-          <div class="panel step">
-            <div class="num">1</div>
-            <h3>Сканирование</h3>
-            <div class="target-demo"><div class="scan-line"></div><div class="enemy-dot"></div></div>
-            <p class="muted">Маяк выбирает самую опасную цель.</p>
-          </div>
-          <div class="panel step yellow">
-            <div class="num yellow">2</div>
-            <h3>Метка</h3>
-            <div class="target-demo"><div class="mark"></div><div class="enemy-dot"></div></div>
-            <p class="muted">Цель получает понятный статус фокуса.</p>
-          </div>
-          <div class="panel step green">
-            <div class="num green">3</div>
-            <h3>Окно уязвимости</h3>
-            <div class="target-demo">
-              <div class="enemy-dot"></div>
-              <div class="hit-ray" style="transform:rotate(24deg)"></div>
-              <div class="hit-ray" style="transform:rotate(155deg)"></div>
-              <div class="hit-ray" style="transform:rotate(270deg)"></div>
-            </div>
-            <p class="muted">Башни и НЛО эффективнее реализуют урон.</p>
-          </div>
+        <p class="muted" style="margin-top:12px">Маяк не заменяет урон. Он создает момент фокуса по главной угрозе и повышает ценность уже построенной обороны.</p>
+        <div class="step-row" style="margin-top:30px">
+          <div class="panel step"><div class="num">1</div><h3 class="green">Выбор угрозы</h3><div class="target-demo"><div class="enemy-dot"></div></div><p class="small muted">Босс → элита → самый крепкий враг.</p></div>
+          <div class="panel step"><div class="num">2</div><h3 class="green">Сканирование</h3><div class="target-demo"><div class="enemy-dot"></div><div class="scan-line"></div><div class="mark"></div></div><p class="small muted">Луч и заметная метка показывают цель.</p></div>
+          <div class="panel step"><div class="num">3</div><h3 class="green">Окно уязвимости</h3><div class="target-demo"><div class="enemy-dot"></div><div class="mark"></div><div class="hit-ray"></div><div class="hit-ray r2"></div><div class="hit-ray r3"></div></div><p class="small muted">НЛО и башни лучше реализуют урон.</p></div>
         </div>
-        <p class="muted" style="margin-top:28px; text-align:center">Баланс: ограничить число активных меток, снизить эффект на боссах, оставить низкий собственный DPS.</p>
+        <div class="grid-3" style="margin-top:24px">
+          <div class="panel tight"><h3 class="cyan">С Лазером</h3><p class="small muted">Помогает реализовать нарастающий урон по сильной цели.</p></div>
+          <div class="panel tight"><h3 class="cyan">Со Снайпером</h3><p class="small muted">Редкие мощные выстрелы становятся ценнее.</p></div>
+          <div class="panel tight"><h3 class="cyan">С Черной дырой</h3><p class="small muted">Цель дольше остается в зоне обстрела.</p></div>
+        </div>
+        <div class="pdf-row"><a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=4" target="_blank" rel="noopener">Подробнее в PDF: взаимодействие и баланс</a></div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="boss">
       <div class="topline"></div>
-      <div class="grid-2" style="grid-template-columns:1fr 1fr">
-        <div class="panel violet">
-          <div class="kicker">AI concept reference</div>
-          <h2 style="margin-top:12px">5. Босс: Панцирный Мутант</h2>
-          <p style="margin-top:20px">Mid-game босс, который проверяет разнообразие обороны. Игрок адаптируется во время боя, но не обязан перестраивать башни.</p>
-          <div style="display:grid; gap:14px; margin-top:24px">
-            <div><strong class="cyan">Пассивка · Адаптивный панцирь:</strong> босс отслеживает доминирующий источник урона и временно получает к нему сопротивление.</div>
-            <div><strong class="green">Активка · Сброс панциря:</strong> босс меняет фазу уязвимости после короткого визуального телеграфа.</div>
-            <div><strong class="yellow">Ответ игрока:</strong> переключить вклад между башнями, AoE-контролем и уроном НЛО.</div>
-            <div><strong class="violet">Баланс:</strong> резист снижает эффективность, но не обнуляет уже построенную стратегию.</div>
+      <div class="grid-2" style="grid-template-columns: .95fr 1.05fr">
+        <div>
+          <div class="kicker">Задание 1 · новый босс</div>
+          <h2 style="margin-top:8px">5. Босс: Панцирный Мутант</h2>
+          <p style="margin-top:18px">Босс для середины игры. Он проверяет, не построил ли игрок всю оборону вокруг одного способа нанесения урона. Перестраивать башни не требуется, но нужно следить за фазой панциря и менять активный фокус.</p>
+          <div class="panel tight" style="margin-top:22px">
+            <h3 class="cyan">Пассивно: Адаптивный панцирь</h3>
+            <p class="small muted" style="margin-top:8px">Если игрок слишком долго опирается на один источник, босс временно получает к нему сопротивление.</p>
+          </div>
+          <div class="panel tight yellow" style="margin-top:14px">
+            <h3 class="yellow">Активно: Сброс панциря</h3>
+            <p class="small muted" style="margin-top:8px">Через промежутки боя босс сбрасывает слой брони и меняет фазу. Цвет и значок заранее объясняют, какой тип урона сейчас менее выгоден.</p>
+          </div>
+          <div class="pdf-row">
+            <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=5" target="_blank" rel="noopener">PDF: способности босса</a>
+            <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=6" target="_blank" rel="noopener">PDF: фазы и риски</a>
           </div>
         </div>
-        <div>
+        <div class="panel">
+          <h3>Визуальные варианты</h3>
           <div class="concept-options">
-            <div class="concept-option">
-              <img src="assets/armored_mutant_concept.png" alt="Вариант визуала босса A">
-              <span class="tag">Вариант A · мутант-танк</span>
-            </div>
-            <div class="concept-option">
-              <img src="assets/armored_mutant_variant_b.png" alt="Вариант визуала босса B">
-              <span class="tag violet">Вариант B · панцирная форма</span>
-            </div>
-          </div>
-          <div class="panel tight" style="margin-top:16px; display:grid; grid-template-columns:190px 1fr; gap:18px; align-items:center">
-            <div class="animated-shell"></div>
-            <p class="muted">Анимация фаз: панцирь циклично меняет цвет, показывая смену резиста/уязвимости без лишнего интерфейсного шума.</p>
+            <div class="concept-option"><img src="assets/armored_mutant_concept.png" alt="Мутант-танк"><strong>Мутант-танк</strong><p class="small muted">Крупный силуэт хорошо показывает угрозу.</p></div>
+            <div class="concept-option"><img src="assets/armored_mutant_variant_b.png" alt="Панцирная форма"><strong>Панцирная форма</strong><p class="small muted">Низкий тяжелый силуэт лучше подчеркивает механику брони.</p></div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="boss-phases">
       <div class="topline"></div>
       <div style="width:min(1160px,100%); margin:auto">
         <h2>6. Фазы босса: адаптация без перестройки</h2>
-        <div class="grid-3" style="margin-top:44px">
-          <div class="panel phase-card"><div class="shell cyan"></div><h3 class="cyan">Синий панцирь</h3><p>резист к контролю</p><p class="muted">ответ: прямой урон</p></div>
-          <div class="panel red phase-card"><div class="shell red" style="border-color:var(--red)"></div><h3 class="red">Красный панцирь</h3><p>резист к single-target</p><p class="muted">ответ: AoE / НЛО</p></div>
-          <div class="panel violet phase-card"><div class="shell violet" style="border-color:var(--violet)"></div><h3 class="violet">Фиолетовый панцирь</h3><p>резист к НЛО</p><p class="muted">ответ: фокус башнями</p></div>
+        <div class="grid-3" style="margin-top:34px">
+          <div class="panel phase-card"><div class="shell" style="border-color:var(--cyan); color:var(--cyan)"></div><h3 class="cyan">Синий панцирь</h3><p>сопротивление к контролю</p><p class="muted">ответ: прямой урон + НЛО</p></div>
+          <div class="panel yellow phase-card"><div class="shell" style="border-color:var(--yellow); color:var(--yellow)"></div><h3 class="yellow">Желтый панцирь</h3><p>сопротивление к взрывам</p><p class="muted">ответ: одиночный урон + НЛО</p></div>
+          <div class="panel violet phase-card"><div class="shell" style="border-color:var(--violet); color:var(--violet)"></div><h3 class="violet">Фиолетовый панцирь</h3><p>сопротивление к одиночному урону</p><p class="muted">ответ: область + НЛО</p></div>
         </div>
+        <div class="grid-2" style="margin-top:26px; grid-template-columns:.7fr 1.3fr">
+          <div class="panel tight" style="display:grid; place-items:center; min-height:150px"><div class="animated-shell"></div><p class="small muted" style="margin-top:14px">CSS-анимация смены фазы</p></div>
+          <div class="panel tight"><h3 class="cyan">Риски баланса</h3><p class="small muted" style="margin-top:10px">Сопротивление не должно создавать ощущение, что башни “сломались”. Игроку нужен понятный телеграф, достаточная длина фазы и простая причина сменить фокус.</p></div>
+        </div>
+        <div class="pdf-row"><a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=6" target="_blank" rel="noopener">Подробнее в PDF: фазы и ответы игрока</a></div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="sheet">
       <div class="topline"></div>
       <div class="sheet-grid">
         <div>
-          <h2>7. Google Sheet для экипировки НЛО</h2>
-          <p class="muted" style="margin-top:20px">Отдельная таблица по заданию: настройка, баланс предметов и визуализация сборки.</p>
-          <p style="margin-top:22px">Ссылка вставляется в финальную версию после публикации Google Sheet.</p>
-          <p style="margin-top:28px"><a class="appendix-link" id="sheetLink" href="#" target="_blank">Открыть Google Sheet</a></p>
+          <div class="kicker">Задание 2</div>
+          <h2 style="margin-top:8px">7. Google Sheet для экипировки НЛО</h2>
+          <p class="muted" style="margin-top:18px">Система экипировки расширяет роль НЛО: сбор ресурсов, участие в бою и поддержка строительства. Сила атаки башен намеренно не используется, чтобы предметы не превращались в общий усилитель всей обороны.</p>
+          <div class="pdf-row">
+            <a class="pdf-link primary" href="https://docs.google.com/spreadsheets/d/1Qlvhi1V1IXiZnE3Ncs3TvXc9QwteCu1dhysO9UuGEWg/edit?usp=sharing" target="_blank" rel="noopener">Открыть Google Sheet</a>
+            <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=7" target="_blank" rel="noopener">PDF: слоты и статы</a>
+            <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=8" target="_blank" rel="noopener">PDF: формула</a>
+          </div>
         </div>
         <div class="sheet-preview">
           <div class="sheet-row head"><span>Лист</span><span>Что внутри</span><span>Зачем</span></div>
-          <div class="sheet-row"><span>Настройка</span><span>слоты, редкости, статы</span><span>единый справочник</span></div>
-          <div class="sheet-row"><span>Балансовая таблица</span><span>12 демо-предметов</span><span>проверка системы</span></div>
-          <div class="sheet-row"><span>Визуализация</span><span>dropdown + итог</span><span>быстрая сборка сета</span></div>
-          <div class="sheet-row"><span>Apps Script</span><span>создает демо</span><span>быстрый запуск</span></div>
+          <div class="sheet-row"><span>Настройка</span><span>слоты, редкости, статы</span><span>справочник</span></div>
+          <div class="sheet-row"><span>Балансовая таблица</span><span>минимальный набор предметов</span><span>демо системы</span></div>
+          <div class="sheet-row"><span>Визуализация</span><span>dropdown + итоговые статы</span><span>сборка сета</span></div>
+          <div class="sheet-row"><span>Apps Script</span><span>создание демо и UI</span><span>быстрый запуск</span></div>
         </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="calculator">
       <div class="topline"></div>
       <div class="interactive">
         <div class="panel">
-          <h2>8. Калькулятор экипировки</h2>
-          <p class="muted" style="margin:12px 0 24px">Интерактивный UI работает прямо в презентации.</p>
+          <div class="kicker">Задание 2 · интерактив</div>
+          <h2 style="margin-top:8px">8. Калькулятор экипировки</h2>
+          <p class="muted" style="margin:12px 0 24px">Соберите сет из трех слотов и посмотрите итоговый прирост характеристик НЛО.</p>
           <label>Двигатель<select id="engine"></select></label>
           <label>Руль<select id="steering"></select></label>
           <label>Грузовой модуль<select id="cargo"></select></label>
-          <p class="small muted">Формула: итог = (база + flat) × (1 + percent)</p>
+          <p class="small muted">Формула: итог = (база + плоские бонусы) × (1 + процентные бонусы)</p>
         </div>
         <div class="panel">
           <h3>Итоговый прирост характеристик</h3>
           <div class="result-grid" id="equipmentResults" style="margin-top:22px"></div>
           <div id="equipmentSummary" class="muted small" style="margin-top:22px"></div>
+          <div class="pdf-row">
+            <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=8" target="_blank" rel="noopener">Подробнее в PDF: формула и пример предметов</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="tournament">
       <div class="topline"></div>
       <div style="width:min(1160px,100%); margin:auto">
-        <h2>9. Weekend-турнир как хай-тек башня комнат</h2>
-        <p class="muted" style="margin-top:14px">Принцип должен быть массово понятным: играй обычные уровни, уничтожай зомби, набирай очки, двигайся вверх по виртуальным комнатам.</p>
-        <div class="tower-stack" style="margin-top:44px">
-          <div class="tier">
-            <h3 class="violet">Комнаты I</h3>
-            <p class="small">первичное распределение по параметру Мощи</p>
-            <p class="muted small">честный старт и базовые призы</p>
-          </div>
-          <div class="tier">
-            <h3 class="cyan">Комнаты II</h3>
-            <p class="small">успешные игроки поднимаются выше</p>
-            <p class="muted small">конкуренция плотнее, призы лучше</p>
-          </div>
-          <div class="tier">
-            <h3 class="yellow">Комнаты III</h3>
-            <p class="small">сильные и активные игроки выходных</p>
-            <p class="muted small">самые ценные призы события</p>
-          </div>
+        <div class="kicker">Задание 3</div>
+        <h2 style="margin-top:8px">9. Weekend-турнир как башня комнат</h2>
+        <p class="muted" style="margin-top:12px; max-width:1050px">48 часов: игроки соревнуются в понятном TD режиме, получают очки за уничтожение зомби и двигаются вверх по виртуальным комнатам. Стартовая комната выбирается по Мощи, а дальнейшее повышение зависит от результата.</p>
+        <div class="tower-stack-v2">
+          <div class="tier-v2 yellow"><h3 class="yellow">Шпиль</h3><div><p class="small">Высокая Мощь / лучшие награды события.</p><p class="small muted">Сюда поднимаются сильные и активные игроки.</p></div><div class="rooms-mini yellow"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
+          <div class="tier-v2"><h3 class="cyan">Тело башни</h3><div><p class="small">Игроки с хорошим результатом и достаточной Мощью.</p><p class="small muted">Конкуренция плотнее, призы лучше.</p></div><div class="rooms-mini cyan"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
+          <div class="tier-v2 green"><h3 class="green">Основание</h3><div><p class="small">Стартовые комнаты по диапазонам Мощи.</p><p class="small muted">Честный вход и базовые награды.</p></div><div class="rooms-mini green"><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span><span class="room-pill"></span></div></div>
         </div>
-        <div class="grid-3" style="margin-top:28px">
-          <div class="panel tight"><h3 class="cyan">Старт</h3><p class="small muted">Первая комната строится по Мощи, чтобы новый участник не попадал сразу к сильно превосходящим игрокам.</p></div>
-          <div class="panel tight green"><h3 class="green">Рост</h3><p class="small muted">Высокое место в комнате повышает игрока в следующий слой на будущий турнир или следующий этап события.</p></div>
-          <div class="panel tight yellow"><h3 class="yellow">Мотивация</h3><p class="small muted">Чем выше слой комнаты, тем ценнее финальные награды. Игрок видит понятную лестницу прогресса.</p></div>
+        <div class="pdf-row">
+          <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=9" target="_blank" rel="noopener">PDF: принцип турнира</a>
+          <a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=11" target="_blank" rel="noopener">PDF: алгоритм распределения</a>
         </div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="proof">
       <div class="topline"></div>
       <div class="proof-layout">
         <div class="game-menu">
-          <div>
-            <div class="kicker">Tournament Control</div>
-            <h2 style="margin-top:8px">10. Proof-of-work</h2>
-          </div>
-          <button class="menu-item active" id="generatePlayers">
-            <span class="menu-icon">01</span>
-            <span>Сгенерировать игроков</span>
-          </button>
-          <button class="menu-item" id="distributePlayers">
-            <span class="menu-icon">02</span>
-            <span>Распределить комнаты</span>
-          </button>
-          <div class="panel tight" style="box-shadow:none">
-            <p class="small"><strong class="cyan">Источник честности:</strong> параметр Мощи.</p>
-            <p class="small muted" style="margin-top:8px">Успех в комнате повышает игрока в следующий слой.</p>
-          </div>
+          <div><div class="kicker">Tournament Control</div><h2 style="margin-top:8px">10. Proof-of-work</h2></div>
+          <button class="menu-item active" id="generatePlayers"><span class="menu-icon">01</span><span>Сгенерировать игроков</span></button>
+          <button class="menu-item" id="distributePlayers"><span class="menu-icon">02</span><span>Распределить комнаты</span></button>
+          <button class="menu-item" id="promotePlayers"><span class="menu-icon">03</span><span>Смоделировать повышение</span></button>
+          <div class="panel tight" style="box-shadow:none"><p class="small"><strong class="cyan">Источник честности:</strong> параметр Мощи.</p><p class="small muted" style="margin-top:8px">Успех в комнате повышает игрока в следующий слой.</p></div>
         </div>
         <div class="rooms" id="rooms"></div>
         <div class="pros-cons">
-          <div class="panel green tight">
-            <h3 class="green">Плюсы</h3>
-            <p class="small muted" style="margin-top:10px">Честный старт по Мощи, понятная лестница роста, больше причин играть оба дня события.</p>
-          </div>
-          <div class="panel yellow tight">
-            <h3 class="yellow">Ограничения</h3>
-            <p class="small muted" style="margin-top:10px">Нужны защиты от позднего входа в уже разогнанную комнату и от резкого скачка сложности после повышения.</p>
-          </div>
-          <div class="panel tight">
-            <h3 class="cyan">Почему это удобно</h3>
-            <p class="small muted" style="margin-top:10px">Алгоритм легко объяснить игроку: «побеждай равных, поднимайся выше, получай призы лучше».</p>
-          </div>
+          <div class="panel green tight"><h3 class="green">Плюсы</h3><p class="small muted" style="margin-top:10px">Честный старт по Мощи, понятная лестница роста, больше причин играть оба дня события.</p></div>
+          <div class="panel yellow tight"><h3 class="yellow">Ограничения</h3><p class="small muted" style="margin-top:10px">Нужны защиты от позднего входа в проигранную комнату и от резкого скачка сложности после повышения.</p></div>
+          <div class="panel tight"><h3 class="cyan">Проверка идеи</h3><p class="small muted" style="margin-top:10px">Генератор не является серверным алгоритмом. Он показывает логику: вход по Мощи, комнаты до 50 человек, повышение за результат.</p></div>
         </div>
-        <pre class="prompt-mini">AI-промпт: распредели игроков по комнатам до 50 человек. Основной параметр — Мощь. Учитывай активность за 7 дней, прошлое место и время входа. Новых игроков помещай в стартовый слой по диапазону Мощи; успешных игроков повышай в комнаты выше; поздних участников не добавляй в комнаты, где топ уже сильно оторвался. Верни room_id, player_id и короткую причину.</pre>
+        <pre class="prompt-mini">AI-промпт: распределить игроков по комнатам до 50 человек. Главный критерий первичного входа — Мощь. Учитывать активность за 7 дней, прошлый результат, время входа, текущую комнату и средние очки за бой. Не добавлять поздних игроков в комнаты, где top-10 уже сильно оторвался. Успешных игроков после закрытия комнаты повышать выше. Вернуть room_id, room_tier, player_id и короткую причину.</pre>
+        <div class="pdf-row" style="grid-column:1 / -1; margin-top:0"><a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=12" target="_blank" rel="noopener">Подробнее в PDF: AI-промпт и proof-of-work</a></div>
       </div>
     </section>
 
-    <section class="slide">
+    <section class="slide" data-title="metrics">
       <div class="topline"></div>
       <div style="width:min(1180px,100%); margin:auto">
-        <h2>12. Метрики: что должно вырасти и почему</h2>
+        <div class="kicker">Задание 3 · метрики</div>
+        <h2 style="margin-top:8px">11. Что должно вырасти и почему</h2>
         <div class="metric-list">
-          <div class="panel metric-card green">
-            <h3 class="green">DAU weekend</h3>
-            <ul class="small muted">
-              <li>48-часовой турнир создает понятную причину зайти именно в субботу и воскресенье.</li>
-              <li>Лестница комнат добавляет цель не только «получить награду», но и подняться выше.</li>
-              <li>Push/entry point события можно завязать на текущую комнату и шанс повышения.</li>
-            </ul>
-          </div>
-          <div class="panel metric-card">
-            <h3 class="cyan">Retention</h3>
-            <ul class="small muted">
-              <li>Игрок возвращается проверить позицию, добрать очки и удержать место в комнате.</li>
-              <li>Повышение в более сильную комнату создает долгосрочную цель на следующие турниры.</li>
-              <li>Важно сохранить ощущение честности: иначе краткий всплеск активности ударит по возвратам.</li>
-            </ul>
-          </div>
-          <div class="panel metric-card yellow">
-            <h3 class="yellow">ARPU / ARPPU</h3>
-            <ul class="small muted">
-              <li>Больше сессий в выходные повышает вероятность покупки энергии, бустеров и событийных офферов.</li>
-              <li>Чем выше комната, тем ценнее призы и тем понятнее мотивация усилить попытку.</li>
-              <li>Монетизация должна помогать догнать цель, но не разрушать доверие к подбору по Мощи.</li>
-            </ul>
-          </div>
+          <div class="panel metric-card green"><h3 class="green">DAU weekend</h3><ul class="small muted"><li>48-часовой турнир дает повод зайти именно в субботу и воскресенье.</li><li>Риск потерять позицию мотивирует возвращаться и добирать очки.</li><li>Комната и шанс повышения становятся понятным entry point события.</li></ul></div>
+          <div class="panel metric-card"><h3 class="cyan">Retention</h3><ul class="small muted"><li>Незавершенная цель: подняться выше или удержать комнату до конца турнира.</li><li>Повышение создает долгосрочную цель на следующие weekend-события.</li><li>Честный старт по Мощи защищает удержание от ощущения unfair matchmaking.</li></ul></div>
+          <div class="panel metric-card yellow"><h3 class="yellow">ARPU / ARPPU</h3><ul class="small muted"><li>Больше сессий повышает вероятность покупки энергии, пропусков, бустеров и событийных офферов.</li><li>Чем выше комната, тем понятнее ценность усилений.</li><li>Монетизация должна помогать догнать цель, но не продавать победу напрямую.</li></ul></div>
         </div>
-        <div class="panel red tight" style="margin-top:22px">
-          <p><strong>Главный риск:</strong> если комнаты ощущаются нечестными или слишком pay-to-win, турнир может поднять краткосрочную выручку ценой retention. Поэтому первичная сортировка по Мощи — не косметика, а защита качества события.</p>
-        </div>
-        <p class="muted small" style="margin-top:24px">Артём Кондратенко · Telegram: @Artem_Kondratenko</p>
+        <div class="panel tight" style="margin-top:20px"><p><strong class="yellow">Контрольные метрики:</strong> среднее число боев на игрока, доля игроков с повышением хотя бы на 1 комнату, разрыв top-1 / top-10 / median, конверсия в первый платеж в дни события.</p></div>
+        <div class="pdf-row"><a class="pdf-link" href="docs/avz_game_gears_gdd_full_v03_final.pdf#page=13" target="_blank" rel="noopener">Подробнее в PDF: метрики турнира</a></div>
+        <p class="muted small" style="margin-top:22px">Артём Кондратенко · Telegram: @Artem_Kondratenko</p>
       </div>
     </section>
   </main>
@@ -1069,47 +474,28 @@
   <div class="progress" id="progress"></div>
 
   <script>
-    const CONFIG = {
-      googleSheetUrl: "#google-sheet-link-pending"
-    };
-
     const slides = [...document.querySelectorAll(".slide")];
     const counter = document.getElementById("counter");
     const progress = document.getElementById("progress");
-    const sheetLink = document.getElementById("sheetLink");
     let current = 0;
-
-    if (CONFIG.googleSheetUrl && !CONFIG.googleSheetUrl.startsWith("#")) {
-      sheetLink.href = CONFIG.googleSheetUrl;
-    } else {
-      sheetLink.addEventListener("click", (event) => {
-        event.preventDefault();
-        alert("Ссылка на Google Sheet будет вставлена после публикации таблицы.");
-      });
-    }
 
     function showSlide(index) {
       current = Math.max(0, Math.min(slides.length - 1, index));
       slides.forEach((slide, i) => slide.classList.toggle("active", i === current));
       counter.textContent = `${current + 1} / ${slides.length}`;
       progress.style.width = `${((current + 1) / slides.length) * 100}%`;
-      history.replaceState(null, "", `#${current + 1}`);
+      try { history.replaceState(null, "", `#${current + 1}`); } catch (error) { /* local file preview can block history updates */ }
     }
 
     document.getElementById("prev").addEventListener("click", () => showSlide(current - 1));
     document.getElementById("next").addEventListener("click", () => showSlide(current + 1));
-    document.querySelectorAll("[data-jump]").forEach((button) => {
-      button.addEventListener("click", () => showSlide(Number(button.dataset.jump) - 1));
-    });
+    document.querySelectorAll("[data-jump]").forEach((button) => button.addEventListener("click", () => showSlide(Number(button.dataset.jump) - 1)));
     document.addEventListener("keydown", (event) => {
       if (["ArrowRight", "PageDown", " "].includes(event.key)) showSlide(current + 1);
       if (["ArrowLeft", "PageUp"].includes(event.key)) showSlide(current - 1);
     });
-
     let touchStart = null;
-    document.addEventListener("touchstart", (event) => {
-      touchStart = event.changedTouches[0].clientX;
-    }, { passive: true });
+    document.addEventListener("touchstart", (event) => { touchStart = event.changedTouches[0].clientX; }, { passive: true });
     document.addEventListener("touchend", (event) => {
       if (touchStart === null) return;
       const dx = event.changedTouches[0].clientX - touchStart;
@@ -1119,35 +505,22 @@
 
     const equipment = [
       { id: "engine_common", slot: "engine", name: "Пульсарный двигатель", rarity: "Обычная", stats: { move_speed_pct: .04, ufo_damage_flat: 5 } },
-      { id: "engine_rare", slot: "engine", name: "Пульсарный двигатель Mk II", rarity: "Редкая", stats: { move_speed_pct: .10, ufo_damage_pct: .05, tower_damage_pct: .03 } },
-      { id: "engine_epic", slot: "engine", name: "Пульсарный двигатель Омега", rarity: "Эпичная", stats: { move_speed_pct: .15, ufo_damage_pct: .09, tower_damage_pct: .05, cargo_capacity_pct: .05 } },
-      { id: "steering_common", slot: "steering", name: "Боевой руль Азимут", rarity: "Обычная", stats: { tower_damage_flat: 6, ufo_damage_flat: 4 } },
-      { id: "steering_rare", slot: "steering", name: "Боевой руль Азимут Mk II", rarity: "Редкая", stats: { tower_damage_pct: .08, ufo_damage_pct: .05 } },
-      { id: "steering_epic", slot: "steering", name: "Боевой руль Азимут Омега", rarity: "Эпичная", stats: { tower_damage_pct: .12, ufo_damage_pct: .08, move_speed_pct: .04 } },
+      { id: "engine_rare", slot: "engine", name: "Пульсарный двигатель Mk II", rarity: "Редкая", stats: { move_speed_pct: .10, ufo_damage_pct: .05 } },
+      { id: "engine_epic", slot: "engine", name: "Пульсарный двигатель Омега", rarity: "Эпичная", stats: { move_speed_pct: .15, ufo_damage_pct: .09, cargo_capacity_pct: .04 } },
+      { id: "steering_common", slot: "steering", name: "Боевой руль Азимут", rarity: "Обычная", stats: { ufo_damage_flat: 6 } },
+      { id: "steering_rare", slot: "steering", name: "Боевой руль Азимут Mk II", rarity: "Редкая", stats: { ufo_damage_pct: .10, move_speed_pct: .03 } },
+      { id: "steering_epic", slot: "steering", name: "Боевой руль Азимут Омега", rarity: "Эпичная", stats: { ufo_damage_pct: .16, move_speed_pct: .05 } },
       { id: "cargo_common", slot: "cargo", name: "Компрессионный трюм", rarity: "Обычная", stats: { cargo_capacity_flat: 2, move_speed_pct: -.01 } },
-      { id: "cargo_rare", slot: "cargo", name: "Компрессионный трюм Mk II", rarity: "Редкая", stats: { cargo_capacity_pct: .20, tower_damage_pct: .05, ufo_damage_flat: 6 } },
-      { id: "cargo_epic", slot: "cargo", name: "Компрессионный трюм Омега", rarity: "Эпичная", stats: { cargo_capacity_pct: .35, tower_damage_pct: .08, ufo_damage_pct: .05, move_speed_pct: -.02 } }
+      { id: "cargo_rare", slot: "cargo", name: "Компрессионный трюм Mk II", rarity: "Редкая", stats: { cargo_capacity_pct: .20, ufo_damage_flat: 6 } },
+      { id: "cargo_epic", slot: "cargo", name: "Компрессионный трюм Омега", rarity: "Эпичная", stats: { cargo_capacity_pct: .35, ufo_damage_pct: .05, move_speed_pct: -.02 } }
     ];
 
-    const baseStats = {
-      tower_damage: 100,
-      ufo_damage: 100,
-      move_speed: 100,
-      cargo_capacity: 10
-    };
-
-    const labels = {
-      tower_damage: "Урон башен",
-      ufo_damage: "Урон НЛО",
-      move_speed: "Скорость НЛО",
-      cargo_capacity: "Вместимость"
-    };
+    const baseStats = { ufo_damage: 100, move_speed: 100, cargo_capacity: 10 };
+    const labels = { ufo_damage: "Урон НЛО", move_speed: "Скорость НЛО", cargo_capacity: "Вместимость ресурсов" };
 
     function fillSelect(slot) {
       const select = document.getElementById(slot);
-      select.innerHTML = equipment.filter(item => item.slot === slot).map(item => (
-        `<option value="${item.id}">${item.name} · ${item.rarity}</option>`
-      )).join("");
+      select.innerHTML = equipment.filter(item => item.slot === slot).map(item => `<option value="${item.id}">${item.name} · ${item.rarity}</option>`).join("");
       if (slot === "engine") select.value = "engine_rare";
       if (slot === "steering") select.value = "steering_rare";
       if (slot === "cargo") select.value = "cargo_rare";
@@ -1159,89 +532,92 @@
       const selected = selectedIds.map(id => equipment.find(item => item.id === id));
       const totals = {};
       Object.keys(baseStats).forEach(stat => totals[stat] = { flat: 0, pct: 0 });
-
-      selected.forEach(item => {
-        Object.entries(item.stats).forEach(([key, value]) => {
-          const [stat, type] = key.endsWith("_pct")
-            ? [key.replace("_pct", ""), "pct"]
-            : [key.replace("_flat", ""), "flat"];
-          if (totals[stat]) totals[stat][type] += value;
-        });
-      });
-
-      const resultHtml = Object.keys(baseStats).map(stat => {
+      selected.forEach(item => Object.entries(item.stats).forEach(([key, value]) => {
+        const isPct = key.endsWith("_pct");
+        const stat = key.replace(isPct ? "_pct" : "_flat", "");
+        if (totals[stat]) totals[stat][isPct ? "pct" : "flat"] += value;
+      }));
+      document.getElementById("equipmentResults").innerHTML = Object.keys(baseStats).map(stat => {
         const base = baseStats[stat];
         const final = (base + totals[stat].flat) * (1 + totals[stat].pct);
         const growth = ((final - base) / base) * 100;
-        return `<div class="stat">
-          <span class="muted small">${labels[stat]}</span>
-          <strong>${final.toFixed(1)}</strong>
-          <span class="small">прирост: ${growth >= 0 ? "+" : ""}${growth.toFixed(1)}%</span>
-        </div>`;
+        return `<div class="stat"><span class="muted small">${labels[stat]}</span><strong>${final.toFixed(1)}</strong><span class="small">прирост: ${growth >= 0 ? "+" : ""}${growth.toFixed(1)}%</span></div>`;
       }).join("");
-
-      document.getElementById("equipmentResults").innerHTML = resultHtml;
       document.getElementById("equipmentSummary").textContent = `Выбрано: ${selected.map(item => item.name).join(" · ")}`;
     }
-
     ["engine", "steering", "cargo"].forEach(fillSelect);
     updateEquipment();
 
-    const names = ["Nova", "Pixel", "Vector", "Orbit", "Delta", "Byte", "Comet", "Rift", "Gamma", "Solar", "Pulse", "Atlas", "Vega", "Mira", "Echo", "Flux", "Ion", "Kappa", "Luna", "Quark", "Ray", "Sigma", "Titan", "Zen"];
+    const names = ["Nova", "Pixel", "Vector", "Orbit", "Delta", "Byte", "Comet", "Rift", "Gamma", "Solar", "Pulse", "Atlas", "Vega", "Mira", "Echo", "Flux", "Ion", "Kappa", "Luna", "Quark", "Ray", "Sigma", "Titan", "Zen", "Frost", "Blitz", "Warden", "Rocket", "Ghost", "Magma"];
     let players = [];
+    let distributedRooms = [];
+
+    function setActiveMenu(id) {
+      ["generatePlayers", "distributePlayers", "promotePlayers"].forEach(btnId => document.getElementById(btnId).classList.toggle("active", btnId === id));
+    }
 
     function generatePlayers() {
-      players = Array.from({ length: 36 }, (_, i) => {
-        const power = Math.round(900 + Math.random() * 4200);
+      players = Array.from({ length: 54 }, (_, i) => {
+        const power = Math.round(900 + Math.random() * 12500);
         const lastRank = Math.ceil(Math.random() * 50);
         const activity = Math.round(2 + Math.random() * 18);
-        return {
-          id: `P${String(i + 1).padStart(2, "0")}`,
-          name: names[i % names.length],
-          power,
-          lastRank,
-          activity,
-          score: Math.round(power * (0.7 + Math.random() * .6) + activity * 120)
-        };
+        const entryHour = Math.round(Math.random() * 47);
+        return { id: `P${String(i + 1).padStart(3, "0")}`, name: names[i % names.length], power, lastRank, activity, entryHour, score: Math.round(power * (0.65 + Math.random() * .75) + activity * 140) };
       });
-      renderRooms([{ title: "Игроки готовы к распределению", players }]);
+      distributedRooms = [{ title: "Игроки готовы к распределению", tier: 1, players }];
+      renderRooms(distributedRooms, "Список сгенерирован. Следующий шаг — распределить по Мощи.");
+      setActiveMenu("generatePlayers");
     }
 
     function getTier(player) {
-      let tier = player.power < 2200 ? 1 : player.power < 3800 ? 2 : 3;
-      if (player.lastRank <= 5) tier += 1;
-      if (player.lastRank > 35) tier -= 1;
+      let tier = player.power < 3500 ? 1 : player.power < 8000 ? 2 : 3;
+      if (player.lastRank <= 5 && player.activity >= 8) tier += 1;
+      if (player.lastRank > 40 || player.entryHour > 36) tier -= 1;
       return Math.max(1, Math.min(3, tier));
+    }
+
+    function roomTitle(tier, idx) {
+      const names = { 1: "Основание", 2: "Тело", 3: "Шпиль" };
+      return `${names[tier]}-${String(idx + 1).padStart(2, "0")}`;
     }
 
     function distributePlayers() {
       if (!players.length) generatePlayers();
-      const rooms = [
-        { title: "Комната I · старт", tier: 1, players: [] },
-        { title: "Комната II · выше", tier: 2, players: [] },
-        { title: "Комната III · призовая", tier: 3, players: [] }
-      ];
-      players
-        .slice()
-        .sort((a, b) => a.power - b.power)
-        .forEach(player => rooms[getTier(player) - 1].players.push(player));
-      renderRooms(rooms);
+      const tiers = { 1: [], 2: [], 3: [] };
+      players.slice().sort((a, b) => a.power - b.power).forEach(player => tiers[getTier(player)].push(player));
+      distributedRooms = [];
+      [1,2,3].forEach(tier => {
+        const list = tiers[tier];
+        for (let i = 0; i < list.length; i += 50) distributedRooms.push({ title: roomTitle(tier, Math.floor(i / 50)), tier, players: list.slice(i, i + 50) });
+      });
+      renderRooms(distributedRooms, "Распределено по Мощи, активности, прошлому месту и времени входа.");
+      setActiveMenu("distributePlayers");
     }
 
-    function renderRooms(rooms) {
+    function promotePlayers() {
+      if (!distributedRooms.length || distributedRooms.length === 1) distributePlayers();
+      const promoted = [];
+      distributedRooms.forEach(room => {
+        const winners = room.players.slice().sort((a,b) => b.score - a.score).slice(0, 3);
+        winners.forEach(p => promoted.push({ ...p, promotedFrom: room.title, tier: Math.min(3, room.tier + 1) }));
+      });
+      const rooms = [1,2,3].map(tier => ({ title: tier === 1 ? "Остались в основании" : tier === 2 ? "Повышены в тело" : "Повышены в шпиль", tier, players: promoted.filter(p => p.tier === tier) }));
+      renderRooms(rooms, "Показаны победители комнат, которые получают право подняться выше.");
+      setActiveMenu("promotePlayers");
+    }
+
+    function renderRooms(rooms, note = "") {
       document.getElementById("rooms").innerHTML = rooms.map(room => `
         <div class="room">
-          <h3 class="${room.tier === 3 ? "yellow" : room.tier === 2 ? "cyan" : "violet"}">${room.title}</h3>
-          <p class="small muted">${room.players.length} игроков</p>
-          ${room.players.slice(0, 10).map(player => `
-            <div class="player"><span>${player.id} ${player.name}</span><span>Мощь ${player.power}</span></div>
-          `).join("")}
-        </div>
-      `).join("");
+          <h3 class="${room.tier === 3 ? "yellow" : room.tier === 2 ? "cyan" : "green"}">${room.title}</h3>
+          <p class="small muted">${room.players.length} игроков${note ? " · " + note : ""}</p>
+          ${room.players.slice(0, 8).map(player => `<div class="player"><span>${player.id} ${player.name}</span><span>${(player.power/1000).toFixed(1)}K</span></div>`).join("")}
+        </div>`).join("");
     }
 
     document.getElementById("generatePlayers").addEventListener("click", generatePlayers);
     document.getElementById("distributePlayers").addEventListener("click", distributePlayers);
+    document.getElementById("promotePlayers").addEventListener("click", promotePlayers);
     generatePlayers();
 
     const initial = Number(location.hash.replace("#", "")) - 1;
